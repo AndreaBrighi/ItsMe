@@ -1,0 +1,9 @@
+<resources>
+    <string-array
+        name="tabs_text">
+        <item>Tab 1</item>
+        <item>Tab 2</item>
+        <item>Tab 3</item>
+    </string-array>
+    <string name="app_name">It\'s me</string>
+</resources>
