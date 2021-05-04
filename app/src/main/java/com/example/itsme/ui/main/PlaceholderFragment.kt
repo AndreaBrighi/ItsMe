@@ -45,9 +45,12 @@ class PlaceholderFragment : Fragment() {
         })
 
         val fab: FloatingActionButton = binding.fabAdd
-        fab.backgroundTintList= ColorStateList.valueOf(resources.getColor(R.color.white,
-            this.activity?.theme
-        ))
+        fab.backgroundTintList = ColorStateList.valueOf(
+            resources.getColor(
+                R.color.white,
+                this.activity?.theme
+            )
+        )
         return root
     }
 
