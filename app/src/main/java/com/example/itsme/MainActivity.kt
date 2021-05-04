@@ -25,5 +25,12 @@ class MainActivity : AppCompatActivity() {
         TabLayoutMediator(tabs, viewPager) { tab, position ->
             tab.text = sectionsPagerAdapter.getPageTitle(position)
         }.attach()
+
+        val tmp = XMLManager()
+        Thread {
+            tmp.writeXML()
+            tmp.readXML()
+        }.start()
+
     }
 }
