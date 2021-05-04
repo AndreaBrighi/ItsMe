@@ -79,3 +79,5 @@ app/app.iml
 
 /.gradle/
 /build/
+
+local.properties
