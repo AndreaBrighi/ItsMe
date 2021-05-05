@@ -1,10 +1,20 @@
 <resources>
     <string-array name="tabs_text">
-        <item>Tab 1</item>
-        <item>Tab 2</item>
-        <item>Tab 3</item>
+        <item>Mine</item>
+        <item>Own</item>
     </string-array>
+    <integer-array name="tabs_icon">
+        <item>@drawable/ic_baseline_person_24</item>
+        <item>@drawable/ic_baseline_bookmarks_24</item>
+    </integer-array>
     <string name="app_name">It\'s me</string>
-    <string name="social">social</string>
-    <string name="work">work</string>
+    <string name="social">Social</string>
+    <string name="work">Work</string>
+    <string name="filter">Filter</string>
+    <string name="type">Type:</string>
+    <string-array name="spinner_array">
+        <item>All</item>
+        <item>@string/social</item>
+        <item>@string/work</item>
+    </string-array>
 </resources>

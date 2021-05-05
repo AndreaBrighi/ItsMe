@@ -1,16 +1,17 @@
 package com.example.itsme.ui.main
 
-import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.ArrayAdapter
+import androidx.appcompat.widget.AppCompatSpinner
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
 import com.example.itsme.R
 import com.example.itsme.databinding.FragmentMainBinding
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.example.itsme.recyclerview.CardAdapter
 
 /**
  * A placeholder fragment containing a simple view.
@@ -39,18 +40,25 @@ class PlaceholderFragment : Fragment() {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
         val root = binding.root
 
-        val textView: TextView = binding.sectionLabel
-        pageViewModel.text.observe(viewLifecycleOwner, {
-            textView.text = it
-        })
+        val spinner: AppCompatSpinner = binding.spinnerFilter
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter.createFromResource(
+            context!!,
+            R.array.spinner_array,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            // Apply the adapter to the spinner
+            spinner.adapter = adapter
+        }
 
-        val fab: FloatingActionButton = binding.fabAdd
-        fab.backgroundTintList = ColorStateList.valueOf(
-            resources.getColor(
-                R.color.white,
-                this.activity?.theme
-            )
-        )
+        val recyclerView: RecyclerView = binding.cardRecyclerView
+        recyclerView.setHasFixedSize(true)
+        val l: List<Int> = listOf(1, 2)
+        recyclerView.adapter = CardAdapter(l)
+
+
         return root
     }
 
