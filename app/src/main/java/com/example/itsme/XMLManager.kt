@@ -9,9 +9,10 @@ import java.io.StringWriter
 
 class XMLManager {
 
-    fun writeXML() {
+    fun writeXML(): String {
         val xmlSerializer = Xml.newSerializer()
-        val xmlString = xmlSerializer.writeDocument {
+        //Log.v("Tes", xmlString)
+        return xmlSerializer.writeDocument {
             writeElement("Movies") {
                 for (i in 1..3) {
                     writeElement("row") {
@@ -38,16 +39,11 @@ class XMLManager {
                 }
             }
         }
-        Log.v("Tes", xmlString)
     }
 
-    fun readXML() {
+    fun readXML(string: String) {
         val xmlString: XmlPullParser = Xml.newPullParser()
-        xmlString.readDocument(
-            "<?xml version='1.0' encoding='UTF-8' standalone='yes'?>" +
-                    "<Movies><row no=\"1\">t</row>" +
-                    "</Movies>"
-        ) {
+        xmlString.readDocument(string) {
 
         }
         //Log.v("Tes", xmlString)
@@ -103,23 +99,27 @@ class XMLManager {
         val xmlStringReader = StringReader(string)
         xmlStringReader.buffered(DEFAULT_BUFFER_SIZE)
         setInput(xmlStringReader)
+        var space ="\t"
         var eventType: Int = eventType
         while (eventType != XmlPullParser.END_DOCUMENT) {
             when (eventType) {
                 XmlPullParser.START_DOCUMENT ->
                     Log.v("Tes", "Start document")
                 XmlPullParser.START_TAG -> {
-                    Log.v("Tes", "Start tag $name")
+                    Log.v("Tes", "${space}Start tag $name")
+                    space+="\t"
                     for (i in 0 until attributeCount) {
-                        Log.v("Tes", "attribute name tag ${getAttributeName(i)}")
-                        Log.v("Tes", "attribute value tag ${getAttributeValue(i)}")
+                        Log.v("Tes", "${space}attribute name tag ${getAttributeName(i)}")
+                        Log.v("Tes", "${space}attribute value tag ${getAttributeValue(i)}")
                     }
                     init()
                 }
-                XmlPullParser.END_TAG ->
-                    Log.v("Tes", "End tag $name")
+                XmlPullParser.END_TAG ->{
+                    space=space.replaceFirst("\t","")
+                    Log.v("Tes", "${space}End tag $name")
+                }
                 XmlPullParser.TEXT ->
-                    Log.v("Tes", "Text $text")
+                    Log.v("Tes", "${space}Text $text")
             }
             eventType = next()
         }

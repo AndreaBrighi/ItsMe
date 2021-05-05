@@ -7,10 +7,13 @@ import com.example.itsme.databinding.ActivityMainBinding
 import com.example.itsme.ui.main.SectionsPagerAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private val executorService: ExecutorService = Executors.newFixedThreadPool(4)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,11 +29,10 @@ class MainActivity : AppCompatActivity() {
             tab.text = sectionsPagerAdapter.getPageTitle(position)
         }.attach()
 
-        val tmp = XMLManager()
-        Thread {
-            tmp.writeXML()
-            tmp.readXML()
-        }.start()
+        executorService.execute {
+            val tmp = XMLManager()
+            tmp.readXML(tmp.writeXML())
+        }
 
     }
 }
