@@ -13,6 +13,8 @@ data class BusinessCard(
     @ColumnInfo(name = "last_name")
     val lastName: String?,
     @ColumnInfo(name = "type")
-    val type: BusinessCardType
+    val type: BusinessCardType,
+    @ColumnInfo(name = "received")
+    val received: Boolean
 
 )

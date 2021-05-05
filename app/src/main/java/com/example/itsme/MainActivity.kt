@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
         val tabs: TabLayout = binding.tabs
         TabLayoutMediator(tabs, viewPager) { tab, position ->
             tab.text = sectionsPagerAdapter.getPageTitle(position)
+            tab.icon = sectionsPagerAdapter.getPageIcon(position)
         }.attach()
 
         executorService.execute {
