@@ -11,7 +11,8 @@ class ConnectToBluetoothServerTask(
     eventListener: EventListener
 ) : ConnectionTask() {
     private var btSocket: BluetoothSocket? = null
-    override fun doInBackground(vararg params: Void?): Int {
+
+    override fun doInBackground(): Int {
         try {
             btSocket!!.connect()
         } catch (e: IOException) {

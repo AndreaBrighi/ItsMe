@@ -1,18 +1,33 @@
 package com.example.itsme.bluetooth
 
-import android.os.AsyncTask
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-abstract class ConnectionTask : AsyncTask<Void?, Void?, Int?>() {
+abstract class ConnectionTask : ViewModel() {
     var connectedChannel: BluetoothChannel? = null
     var eventListener: EventListener? = null
-    override fun onPostExecute(result: Int?) {
-        when (result) {
-            CONNECTION_DONE -> if (eventListener != null) {
-                eventListener!!.onConnectionActive(connectedChannel)
+
+    abstract fun doInBackground(): Int
+
+    fun execute() {
+        viewModelScope.launch {
+            when (executeInBackground()) {
+                CONNECTION_DONE -> if (eventListener != null) {
+                    eventListener!!.onConnectionActive(connectedChannel)
+                }
+                CONNECTION_CANCELED -> if (eventListener != null) {
+                    eventListener!!.onConnectionCanceled()
+                }
             }
-            CONNECTION_CANCELED -> if (eventListener != null) {
-                eventListener!!.onConnectionCanceled()
-            }
+        }
+    }
+
+    private suspend fun executeInBackground():Int{
+        return withContext(Dispatchers.IO) {
+            doInBackground()
         }
     }
 
