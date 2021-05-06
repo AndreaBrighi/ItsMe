@@ -56,7 +56,7 @@ class PlaceholderFragment : Fragment() {
         val recyclerView: RecyclerView = binding.cardRecyclerView
         recyclerView.setHasFixedSize(true)
         val l: List<Int> = listOf(1, 2)
-        recyclerView.adapter = CardAdapter(l)
+        recyclerView.adapter = CardAdapter(l, this.activity!!)
 //        arguments?.takeIf { it.containsKey(ARG_SECTION_NUMBER) }?.apply {
 //            when( getInt(ARG_SECTION_NUMBER)) {
 //                1 ->

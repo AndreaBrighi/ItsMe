@@ -29,7 +29,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/textView2"
+            android:id="@+id/type_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -39,67 +39,56 @@
             app:layout_constraintStart_toStartOf="@+id/name_view"
             app:layout_constraintTop_toBottomOf="@+id/name_view" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Number"
-            android:textAppearance="?attr/textAppearanceBody2"
-            android:textColor="?android:attr/textColorSecondary"
-            app:layout_constraintStart_toStartOf="@+id/textView2"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/imageView"
+            android:id="@+id/phoneIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
             android:src="@drawable/ic_baseline_call_24"
-            app:layout_constraintStart_toStartOf="@+id/textView3"
-            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+            app:layout_constraintStart_toStartOf="@+id/type_view"
+            app:layout_constraintTop_toBottomOf="@+id/type_view" />
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/imageView1"
+            android:id="@+id/emailIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:src="@drawable/ic_baseline_email_24"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView"
-            app:layout_constraintStart_toEndOf="@+id/imageView" />
+            app:layout_constraintBottom_toBottomOf="@+id/phoneIcon"
+            app:layout_constraintStart_toEndOf="@+id/phoneIcon" />
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/webIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:src="@drawable/ic_baseline_web_24"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView1"
-            app:layout_constraintStart_toEndOf="@+id/imageView1" />
+            app:layout_constraintBottom_toBottomOf="@+id/emailIcon"
+            app:layout_constraintStart_toEndOf="@+id/emailIcon" />
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/facebookIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:src="@drawable/ic_baseline_facebook_24"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView2"
-            app:layout_constraintStart_toEndOf="@+id/imageView2" />
+            app:layout_constraintBottom_toBottomOf="@+id/webIcon"
+            app:layout_constraintStart_toEndOf="@+id/webIcon" />
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/imageView4"
+            android:id="@+id/instagramIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:src="@drawable/ic_baseline_instagram_24"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView3"
-            app:layout_constraintStart_toEndOf="@+id/imageView3" />
+            app:layout_constraintBottom_toBottomOf="@+id/facebookIcon"
+            app:layout_constraintStart_toEndOf="@+id/facebookIcon" />
 
         <!-- Buttons -->
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/materialButton"
+            android:id="@+id/detailsButton"
             style="?attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -108,30 +97,30 @@
             android:text="Details"
             app:icon="@drawable/ic_baseline_list_24"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/textView3"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintStart_toStartOf="@+id/type_view"
+            app:layout_constraintTop_toBottomOf="@+id/phoneIcon" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/materialButton2"
+            android:id="@+id/shareButton"
             style="?attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="Share"
             app:icon="@drawable/ic_baseline_share_24"
-            app:layout_constraintBottom_toBottomOf="@id/materialButton"
-            app:layout_constraintStart_toEndOf="@+id/materialButton" />
+            app:layout_constraintBottom_toBottomOf="@id/detailsButton"
+            app:layout_constraintStart_toEndOf="@+id/detailsButton" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/materialButton3"
+            android:id="@+id/sendButton"
             style="?attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="Send"
             app:icon="@drawable/ic_baseline_bluetooth_24"
-            app:layout_constraintBottom_toBottomOf="@id/materialButton"
-            app:layout_constraintStart_toEndOf="@+id/materialButton2" />
+            app:layout_constraintBottom_toBottomOf="@id/detailsButton"
+            app:layout_constraintStart_toEndOf="@+id/shareButton" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
