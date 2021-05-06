@@ -1,8 +1,12 @@
 package com.example.itsme.recyclerview
 
-import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.example.itsme.databinding.CardPreviewBinding
 
-class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class CardViewHolder(private val itemBinding: CardPreviewBinding) : RecyclerView.ViewHolder(itemBinding.root) {
+
+    fun bind(card: Int) {
+        itemBinding.nameView.text = card.toString() +" "+ itemBinding.nameView.text
+    }
 
 }
