@@ -3,9 +3,14 @@
         <item>Mine</item>
         <item>Own</item>
     </string-array>
-    <integer-array name="tabs_icon">
+    <integer-array name="tab_icons">
         <item>@drawable/ic_baseline_person_24</item>
         <item>@drawable/ic_baseline_bookmarks_24</item>
+    </integer-array>
+
+    <integer-array name="fab_icons">
+        <item>@drawable/ic_baseline_add_24</item>
+        <item>@drawable/ic_baseline_file_download_24</item>
     </integer-array>
     <string name="app_name">It\'s me</string>
     <string name="social">Social</string>

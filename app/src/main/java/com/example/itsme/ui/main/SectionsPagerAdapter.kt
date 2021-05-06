@@ -15,8 +15,8 @@ import com.example.itsme.R
 class SectionsPagerAdapter(private val fa: FragmentActivity) :
     FragmentStateAdapter(fa) {
 
-    private val tabsTitle = fa.resources.getStringArray(R.array.tabs_text)
-    private val tabsIcon = fa.resources.obtainTypedArray(R.array.tabs_icon)
+    private val tabTitles = fa.resources.getStringArray(R.array.tabs_text)
+    private val tabIcons = fa.resources.obtainTypedArray(R.array.tab_icons)
 
     override fun createFragment(position: Int): Fragment {
         // getItem is called to instantiate the fragment for the given page.
@@ -25,18 +25,18 @@ class SectionsPagerAdapter(private val fa: FragmentActivity) :
     }
 
     fun getPageTitle(position: Int): CharSequence {
-        return tabsTitle[position]
+        return tabTitles[position]
     }
 
     override fun getItemCount(): Int {
         // Show 2 total pages.
-        return tabsTitle.size
+        return tabTitles.size
     }
 
     fun getPageIcon(position: Int): Drawable? {
         return ResourcesCompat.getDrawable(
             fa.resources,
-            tabsIcon.getResourceId(tabsIcon.getIndex(position), -1),
+            tabIcons.getResourceId(tabIcons.getIndex(position), -1),
             fa.theme
         )
     }
