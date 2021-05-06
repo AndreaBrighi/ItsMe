@@ -4,14 +4,9 @@ import android.graphics.drawable.Drawable
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.itsme.R
 
-/**
- * A [FragmentPagerAdapter] that returns a fragment corresponding to
- * one of the sections/tabs/pages.
- */
 class SectionsPagerAdapter(private val fa: FragmentActivity) :
     FragmentStateAdapter(fa) {
 
@@ -36,7 +31,7 @@ class SectionsPagerAdapter(private val fa: FragmentActivity) :
     fun getPageIcon(position: Int): Drawable? {
         return ResourcesCompat.getDrawable(
             fa.resources,
-            tabIcons.getResourceId(tabIcons.getIndex(position), -1),
+            tabIcons.getResourceId(position, 0),
             fa.theme
         )
     }

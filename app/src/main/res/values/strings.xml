@@ -3,15 +3,6 @@
         <item>Mine</item>
         <item>Own</item>
     </string-array>
-    <integer-array name="tab_icons">
-        <item>@drawable/ic_baseline_person_24</item>
-        <item>@drawable/ic_baseline_bookmarks_24</item>
-    </integer-array>
-
-    <integer-array name="fab_icons">
-        <item>@drawable/ic_baseline_add_24</item>
-        <item>@drawable/ic_baseline_file_download_24</item>
-    </integer-array>
     <string name="app_name">It\'s me</string>
     <string name="social">Social</string>
     <string name="work">Work</string>
@@ -22,4 +13,8 @@
         <item>@string/social</item>
         <item>@string/work</item>
     </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add_new_card">Add new card</string>
+    <string name="receive_card">Receive card</string>
 </resources>

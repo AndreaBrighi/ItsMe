@@ -43,7 +43,7 @@ class PlaceholderFragment : Fragment() {
         val spinner: AppCompatSpinner = binding.spinnerFilter
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter.createFromResource(
-            context!!,
+            requireContext(),
             R.array.spinner_array,
             android.R.layout.simple_spinner_item
         ).also { adapter ->
@@ -56,7 +56,7 @@ class PlaceholderFragment : Fragment() {
         val recyclerView: RecyclerView = binding.cardRecyclerView
         recyclerView.setHasFixedSize(true)
         val l: List<Int> = listOf(1, 2)
-        recyclerView.adapter = CardAdapter(l, this.activity!!)
+        recyclerView.adapter = CardAdapter(l, this.requireActivity())
 //        arguments?.takeIf { it.containsKey(ARG_SECTION_NUMBER) }?.apply {
 //            when( getInt(ARG_SECTION_NUMBER)) {
 //                1 ->
