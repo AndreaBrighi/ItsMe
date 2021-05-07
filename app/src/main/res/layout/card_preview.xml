@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
-            android:text="name"
+            android:text="Name"
             android:textAppearance="?attr/textAppearanceHeadline6"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -67,7 +67,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/emailIcon"
             app:layout_constraintStart_toEndOf="@+id/emailIcon" />
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/facebookIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -94,7 +94,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            android:text="Details"
+            android:text="@string/details"
             app:icon="@drawable/ic_baseline_list_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/type_view"
@@ -106,7 +106,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="Share"
+            android:text="@string/share"
             app:icon="@drawable/ic_baseline_share_24"
             app:layout_constraintBottom_toBottomOf="@id/detailsButton"
             app:layout_constraintStart_toEndOf="@+id/detailsButton" />
@@ -117,7 +117,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="Send"
+            android:text="@string/send"
             app:icon="@drawable/ic_baseline_bluetooth_24"
             app:layout_constraintBottom_toBottomOf="@id/detailsButton"
             app:layout_constraintStart_toEndOf="@+id/shareButton" />

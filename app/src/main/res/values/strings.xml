@@ -17,4 +17,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="add_new_card">Add new card</string>
     <string name="receive_card">Receive card</string>
+    <string name="share">Share</string>
+    <string name="send">Send</string>
+    <string name="details">Details</string>
 </resources>

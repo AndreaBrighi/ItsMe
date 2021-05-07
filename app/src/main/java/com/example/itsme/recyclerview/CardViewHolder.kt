@@ -23,6 +23,14 @@ class CardViewHolder(
             }
         }
 
+        itemBinding.card.setOnClickListener{
+            activity.supportFragmentManager.commit {
+                setReorderingAllowed(true)
+                replace(R.id.fragment_container_view, DetailsFragment(), null)
+                addToBackStack(this.javaClass.name)
+            }
+        }
+
         itemBinding.sendButton.setOnClickListener {
 
         }
