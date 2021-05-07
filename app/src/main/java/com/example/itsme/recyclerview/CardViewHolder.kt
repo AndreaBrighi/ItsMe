@@ -1,6 +1,7 @@
 package com.example.itsme.recyclerview
 
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.commit
 import androidx.recyclerview.widget.RecyclerView
 import com.example.itsme.DetailsFragment
 import com.example.itsme.R
@@ -15,11 +16,11 @@ class CardViewHolder(
         itemBinding.nameView.text = card.toString() + " " + itemBinding.nameView.text
 
         itemBinding.detailsButton.setOnClickListener {
-            activity.supportFragmentManager.beginTransaction()
-                .setReorderingAllowed(true)
-                .replace(R.id.fragment_container_view, DetailsFragment(), null)
-                .addToBackStack(this.javaClass.name)
-                .commit()
+            activity.supportFragmentManager.commit {
+                setReorderingAllowed(true)
+                replace(R.id.fragment_container_view, DetailsFragment(), null)
+                addToBackStack(this.javaClass.name)
+            }
         }
 
         itemBinding.sendButton.setOnClickListener {
