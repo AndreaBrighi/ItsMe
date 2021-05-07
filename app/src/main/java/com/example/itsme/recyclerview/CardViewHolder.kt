@@ -1,9 +1,11 @@
 package com.example.itsme.recyclerview
 
+import android.content.Intent
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.commit
 import androidx.recyclerview.widget.RecyclerView
 import com.example.itsme.DetailsFragment
+import com.example.itsme.FindActivity
 import com.example.itsme.R
 import com.example.itsme.databinding.CardPreviewBinding
 
@@ -32,7 +34,9 @@ class CardViewHolder(
         }
 
         itemBinding.sendButton.setOnClickListener {
-
+            val intent = Intent(activity.baseContext, FindActivity::class.java)
+            //intent.putExtra(EXTRA_ADDRESS, address)
+            activity.startActivity(intent)
         }
 
         itemBinding.shareButton.setOnClickListener {
