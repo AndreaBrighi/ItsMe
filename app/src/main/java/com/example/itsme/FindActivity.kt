@@ -105,19 +105,20 @@ class FindActivity : AppCompatActivity() {
             if (BluetoothDevice.ACTION_FOUND == action) {
                 val device = intent
                     .getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
-                val list: ArrayList<BluetoothDevice> = ArrayList()
+//                val list: ArrayList<BluetoothDevice> = ArrayList()
                 if (device != null && device.name != null) {
-                    if (mBluetoothAdapter.bondedDevices.isNotEmpty()) {
-                        if (mBluetoothAdapter.bondedDevices.contains(device)) {
-                            list.add(device)
-                            Log.i("device", "" + device)
-                        }
-
-                    } else {
-                        Toast.makeText(context, "no paired bluetooth device found", Toast.LENGTH_SHORT)
-                            .show()
-                    }
+//                    if (mBluetoothAdapter.bondedDevices.isNotEmpty()) {
+//                        if (mBluetoothAdapter.bondedDevices.contains(device)) {
+//                            list.add(device)
+//                            Log.i("device", "" + device)
+//                        }
+//
+//                    } else {
+//                        Toast.makeText(context, "no paired bluetooth device found", Toast.LENGTH_SHORT)
+//                            .show()
+//                    }
                     mPairedDevices.add(device)
+                    mPairedDevices = mPairedDevices.distinct().toMutableList()
                     Log.i(
                         "BTT", """
                          ${device.name}
@@ -169,7 +170,7 @@ class FindActivity : AppCompatActivity() {
 
     var btChannel: BluetoothChannel? = null
 
-    private fun send(address: String){
+    private fun send(address: String) {
 
         try {
             connectToBTServer(address)
@@ -184,8 +185,7 @@ class FindActivity : AppCompatActivity() {
         val serverDevice: BluetoothDevice =
             BluetoothUtils.getPairedDeviceByName(name)
 
-        // !!! UTILIZZARE IL CORRETTO VALORE DI UUID
-        val  uuid: UUID = BluetoothUtils.generateUuidFromString(C.Bluetooth.BT_SERVER_UUID)
+        val uuid: UUID = BluetoothUtils.generateUuidFromString(C.Bluetooth.BT_SERVER_UUID)
         ConnectToBluetoothServerTask(serverDevice, uuid, object : ConnectionTask.EventListener {
             override fun onConnectionActive(channel: BluetoothChannel?) {
                 btChannel = channel
@@ -196,6 +196,7 @@ class FindActivity : AppCompatActivity() {
                     override fun onMessageSent(sentMessage: String?) {
                         Toast.makeText(baseContext, "send", Toast.LENGTH_SHORT)
                             .show()
+                        btChannel?.close()
                     }
                 })
             }
