@@ -21,8 +21,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.itsme.bluetooth.*
+import com.example.itsme.bluetooth.exception.BluetoothDeviceNotFound
+import com.example.itsme.bluetooth.utils.C
 import com.example.itsme.databinding.ActivityFindBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class FindActivity : AppCompatActivity() {
@@ -128,7 +133,7 @@ class FindActivity : AppCompatActivity() {
                     binding.selectDeviceList.onItemClickListener =
                         AdapterView.OnItemClickListener { _, _, position, _ ->
                             val t: BluetoothDevice = mPairedDevices[position]
-                            val address: String = device.name
+                            send(t.address)
 
 //            val intent = Intent(this, ControlActivity::class.java)
 //            intent.putExtra(EXTRA_ADDRESS, address)
@@ -160,6 +165,44 @@ class FindActivity : AppCompatActivity() {
 
         }
 
+    }
+
+    var btChannel: BluetoothChannel? = null
+
+    private fun send(address: String){
+
+        try {
+            connectToBTServer(address)
+            btChannel?.sendMessage("test")
+        } catch (bluetoothDeviceNotFound: BluetoothDeviceNotFound) {
+            bluetoothDeviceNotFound.printStackTrace()
+        }
+    }
+
+    @Throws(BluetoothDeviceNotFound::class)
+    private fun connectToBTServer(name: String) {
+        val serverDevice: BluetoothDevice =
+            BluetoothUtils.getPairedDeviceByName(name)
+
+        // !!! UTILIZZARE IL CORRETTO VALORE DI UUID
+        val  uuid: UUID = BluetoothUtils.generateUuidFromString(C.Bluetooth.BT_SERVER_UUID)
+        ConnectToBluetoothServerTask(serverDevice, uuid, object : ConnectionTask.EventListener {
+            override fun onConnectionActive(channel: BluetoothChannel?) {
+                btChannel = channel
+                btChannel?.registerListener(object : CommChannel.Listener {
+                    override fun onMessageReceived(receivedMessage: String?) {
+                    }
+
+                    override fun onMessageSent(sentMessage: String?) {
+                        Toast.makeText(baseContext, "send", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                })
+            }
+
+            override fun onConnectionCanceled() {
+            }
+        }).execute()
     }
 
 /*override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
