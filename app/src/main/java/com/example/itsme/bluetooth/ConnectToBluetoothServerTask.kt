@@ -24,7 +24,7 @@ class ConnectToBluetoothServerTask(
             }
             return CONNECTION_CANCELED
         }
-        connectedChannel = RealBluetoothChannel(btSocket)
+        connectedChannel = RealBluetoothChannel(btSocket!!)
         return CONNECTION_DONE
     }
 

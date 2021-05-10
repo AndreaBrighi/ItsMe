@@ -8,10 +8,10 @@ import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
 
-class RealBluetoothChannel internal constructor(socket: BluetoothSocket?) : BluetoothChannel() {
-    override val remoteDeviceName: String = socket!!.remoteDevice.name
+class RealBluetoothChannel internal constructor(socket: BluetoothSocket) : BluetoothChannel() {
+    override val remoteDeviceName: String = socket.remoteDevice.name
 
-    internal inner class BluetoothWorker(private val socket: BluetoothSocket?) : ExtendedRunnable {
+    internal inner class BluetoothWorker(private val socket: BluetoothSocket) : ExtendedRunnable {
         private val inputStream: InputStream?
         private val outputStream: OutputStream?
         override fun run() {
@@ -38,6 +38,7 @@ class RealBluetoothChannel internal constructor(socket: BluetoothSocket?) : Blue
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
+                    break
                 }
             }
         }
@@ -57,7 +58,7 @@ class RealBluetoothChannel internal constructor(socket: BluetoothSocket?) : Blue
 
         override fun cancel() {
             try {
-                socket!!.close()
+                socket.close()
             } catch (e: IOException) {
                 Log.e(C.LIB_TAG, "Could not close the connect socket", e)
             }
@@ -67,12 +68,12 @@ class RealBluetoothChannel internal constructor(socket: BluetoothSocket?) : Blue
             var tmpIn: InputStream? = null
             var tmpOut: OutputStream? = null
             try {
-                tmpIn = socket!!.inputStream
+                tmpIn = socket.inputStream
             } catch (e: IOException) {
                 Log.e(C.LIB_TAG, "Error occurred when creating input stream", e)
             }
             try {
-                tmpOut = socket!!.outputStream
+                tmpOut = socket.outputStream
             } catch (e: IOException) {
                 Log.e(C.LIB_TAG, "Error occurred when creating output stream", e)
             }

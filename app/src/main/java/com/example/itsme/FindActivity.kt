@@ -134,7 +134,7 @@ class FindActivity : AppCompatActivity() {
                     binding.selectDeviceList.onItemClickListener =
                         AdapterView.OnItemClickListener { _, _, position, _ ->
                             val t: BluetoothDevice = mPairedDevices[position]
-                            send(t.address)
+                            send(t.name)
 
 //            val intent = Intent(this, ControlActivity::class.java)
 //            intent.putExtra(EXTRA_ADDRESS, address)
@@ -170,11 +170,11 @@ class FindActivity : AppCompatActivity() {
 
     var btChannel: BluetoothChannel? = null
 
-    private fun send(address: String) {
+    private fun send(name: String) {
 
         try {
-            connectToBTServer(address)
-            btChannel?.sendMessage("test")
+            connectToBTServer(name)
+
         } catch (bluetoothDeviceNotFound: BluetoothDeviceNotFound) {
             bluetoothDeviceNotFound.printStackTrace()
         }
@@ -199,6 +199,7 @@ class FindActivity : AppCompatActivity() {
                         btChannel?.close()
                     }
                 })
+                btChannel?.sendMessage("test")
             }
 
             override fun onConnectionCanceled() {
