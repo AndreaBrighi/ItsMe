@@ -21,7 +21,7 @@ class RealBluetoothChannel internal constructor(socket: BluetoothSocket?) : Blue
                     var readBuffer = StringBuffer()
                     var inputByte: Byte
                     while (input.readByte().also { inputByte = it }.toInt() != 0) {
-                        val chr = inputByte.toChar()
+                        val chr = inputByte.toInt().toChar()
                         if (chr != C.Message.MESSAGE_TERMINATOR) {
                             readBuffer.append(chr)
                         } else {
@@ -45,7 +45,7 @@ class RealBluetoothChannel internal constructor(socket: BluetoothSocket?) : Blue
         override fun write(bytes: ByteArray) {
             try {
                 val bytesToBeSent = bytes.copyOf(bytes.size + 1)
-                bytesToBeSent[bytesToBeSent.size - 1] = C.Message.MESSAGE_TERMINATOR.toByte()
+                bytesToBeSent[bytesToBeSent.size - 1] = C.Message.MESSAGE_TERMINATOR.code.toByte()
                 outputStream!!.write(bytesToBeSent)
                 val writtenMsg =
                     btChannelHandler.obtainMessage(C.Channel.MESSAGE_SENT, -1, -1, bytes)
