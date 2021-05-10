@@ -14,8 +14,9 @@
 
     <queries>
         <intent>
-            <action android:name="android.intent.action.SEND"/>
-            <data android:mimeType="text/xml"/>
+            <action android:name="android.intent.action.SEND" />
+
+            <data android:mimeType="application/cxml" />
         </intent>
     </queries>
 
@@ -26,6 +27,39 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ItsMe">
+        <activity
+            android:name=".ReadActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="application/cxml"/>
+                <data android:mimeType="*/cxml"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="file" />
+                <data android:scheme="content" />
+                <data android:mimeType="*/*" />
+                <!--
+                    Work around Android's ugly primitive PatternMatcher
+                    implementation that can't cope with finding a . early in
+                    the path unless it's explicitly matched.
+                -->
+                <data android:host="*" />
+                <data android:pathPattern=".*\\.cxml" />
+                <data android:pathPattern=".*\\.cxml" />
+                <data android:pathPattern=".*\\..*\\.cxml" />
+                <data android:pathPattern=".*\\..*\\..*\\.cxml" />
+                <data android:pathPattern=".*\\..*\\..*\\..*\\.cxml" />
+<!--                 keep going if you need more -->
+
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ReceivedActivity"
             android:exported="true" />

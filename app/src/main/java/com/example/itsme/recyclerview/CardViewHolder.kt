@@ -55,7 +55,7 @@ class CardViewHolder(
                 val shareIntent: Intent = Intent().apply {
                     action = Intent.ACTION_SEND
                     putExtra(Intent.EXTRA_STREAM, uriText)
-                    type = "text/cxml"
+                    type = "application/cxml"
                 }
                 activity.startActivity(Intent.createChooser(shareIntent, "Send"))
             }
@@ -104,7 +104,7 @@ class CardViewHolder(
                     )       //file name
                     values.put(
                         MediaStore.MediaColumns.MIME_TYPE,
-                        "text/cxml"
+                        "application/cxml"
                     )        //file extension, will automatically add to file
                     values.put(
                         MediaStore.MediaColumns.RELATIVE_PATH,
