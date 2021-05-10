@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.itsme.bluetooth.BluetoothChannel
 import com.example.itsme.bluetooth.BluetoothServer
 import com.example.itsme.bluetooth.CommChannel
-import com.example.itsme.bluetooth.RealBluetoothChannel
 import com.example.itsme.bluetooth.utils.C
 import com.example.itsme.databinding.ActivityReceivedBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -25,13 +24,11 @@ class ReceivedActivity : AppCompatActivity() {
     private var btServer: BluetoothServer? = null
     private val btServerListener = BluetoothServerListener()
 
-    private var bluetoothChannelList: MutableList<RealBluetoothChannel>? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityReceivedBinding.inflate(layoutInflater)
-
+        btChannel = null
         setContentView(binding.root)
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
         resultLauncher =
@@ -94,7 +91,6 @@ class ReceivedActivity : AppCompatActivity() {
     }
 
     private fun startBluetoothServer() {
-        bluetoothChannelList = ArrayList()
         btServer = BluetoothServer(
             C.Bluetooth.BT_SERVER_UUID,
             "server",
@@ -118,13 +114,14 @@ class ReceivedActivity : AppCompatActivity() {
 //            }
             btChannel?.registerListener(object : CommChannel.Listener {
                 override fun onMessageReceived(receivedMessage: String?) {
-                    binding.textView.text = receivedMessage
+                    runOnUiThread {
+                        binding.textView.text = receivedMessage
+                    }
                 }
 
                 override fun onMessageSent(sentMessage: String?) {
                 }
             })
-            bluetoothChannelList?.add(btChannel as RealBluetoothChannel)
         }
     }
 }
