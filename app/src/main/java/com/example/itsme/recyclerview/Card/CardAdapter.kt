@@ -1,4 +1,4 @@
-package com.example.itsme.recyclerview
+package com.example.itsme.recyclerview.Card
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

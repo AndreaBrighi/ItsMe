@@ -1,4 +1,4 @@
-package com.example.itsme.recyclerview
+package com.example.itsme.recyclerview.Card
 
 import android.content.ContentUris
 import android.content.ContentValues
