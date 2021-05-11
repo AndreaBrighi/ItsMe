@@ -18,6 +18,9 @@
 
             <data android:mimeType="application/cxml" />
         </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+        </intent>
     </queries>
 
     <application

@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.itsme.R
 import com.example.itsme.databinding.FragmentMainBinding
-import com.example.itsme.recyclerview.Card.CardAdapter
+import com.example.itsme.recyclerview.card.CardAdapter
 
 /**
  * A placeholder fragment containing a simple view.

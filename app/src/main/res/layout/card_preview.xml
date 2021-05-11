@@ -9,7 +9,7 @@
     app:cardElevation="0dp"
     app:strokeColor="@color/stroke_color"
     app:strokeWidth="1dp"
-    tools:context=".recyclerview.Card.CardViewHolder">
+    tools:context=".recyclerview.card.CardViewHolder">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
