@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="new"
+        android:enabled="true"
+        android:icon="@mipmap/ic_add"
+        android:shortcutShortLabel="@string/new_short"
+        android:shortcutLongLabel="@string/new_long">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.example.itsme"
+            android:targetClass="com.example.itsme.AddActivity" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="download"
+        android:enabled="true"
+        android:icon="@mipmap/ic_download"
+        android:shortcutShortLabel="@string/get_short"
+        android:shortcutLongLabel="@string/get_long">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.example.itsme"
+            android:targetClass="com.example.itsme.Received" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+</shortcuts>

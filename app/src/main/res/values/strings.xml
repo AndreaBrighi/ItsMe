@@ -43,4 +43,9 @@
         <item quantity="one"> %d item</item>
         <item quantity="other">%d items</item>
     </plurals>
+
+    <string name="new_short">new card</string>
+    <string name="new_long">create new card</string>
+    <string name="get_short">get card</string>
+    <string name="get_long">get card with bluetooth</string>
 </resources>
