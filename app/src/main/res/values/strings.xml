@@ -37,6 +37,7 @@
     <string name="web">web page</string>
     <string name="facebook">facebook</string>
     <string name="instagram">instagram</string>
+    <string name="surname">Surname:</string>
 
     <plurals name="elements">
         <item quantity="one"> %d item</item>

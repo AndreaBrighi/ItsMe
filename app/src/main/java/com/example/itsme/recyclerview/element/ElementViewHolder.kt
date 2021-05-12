@@ -1,6 +1,7 @@
 package com.example.itsme.recyclerview.element
 
 import android.content.res.Resources
+import android.view.View
 import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.FragmentActivity
@@ -14,7 +15,9 @@ class ElementViewHolder(
     private val element: Element
 ) : RecyclerView.ViewHolder(itemBinding.root) {
 
-    fun bind(position: Int) {
+    private var _isEditable = false
+
+    fun bind(position: Int, editable: Boolean) {
 
         val res: Resources = activity.resources
 
@@ -37,5 +40,18 @@ class ElementViewHolder(
                 ).show()
             }
         }
+
+        isEditable = editable
     }
+
+    var isEditable: Boolean
+        get() {
+            return _isEditable
+        }
+        set(value) {
+            _isEditable = value
+            val visibility: Int = if (value) View.VISIBLE else View.INVISIBLE
+            itemBinding.editButton.isEnabled = value
+            itemBinding.deleteButton.isEnabled = value
+        }
 }

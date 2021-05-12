@@ -4,6 +4,7 @@ import android.app.Activity
 import android.bluetooth.BluetoothAdapter
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -13,12 +14,16 @@ import com.example.itsme.bluetooth.BluetoothServer
 import com.example.itsme.bluetooth.CommChannel
 import com.example.itsme.bluetooth.utils.C
 import com.example.itsme.databinding.ActivityReceivedBinding
+import com.example.itsme.databinding.FragmentDetailsBinding
+import com.example.itsme.recyclerview.ElementType
+import com.example.itsme.recyclerview.element.ContactAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class ReceivedActivity : AppCompatActivity() {
 
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
     private lateinit var binding: ActivityReceivedBinding
+    private lateinit var bindingInclude: FragmentDetailsBinding
     private lateinit var mBluetoothAdapter: BluetoothAdapter
     private var btChannel: BluetoothChannel? = null
     private var btServer: BluetoothServer? = null
@@ -30,7 +35,14 @@ class ReceivedActivity : AppCompatActivity() {
         binding = ActivityReceivedBinding.inflate(layoutInflater)
         btChannel = null
         setContentView(binding.root)
+        bindingInclude = binding.id
+
+        val adapter = ContactAdapter(ElementType.values().toList(), this)
+        adapter.isEditable = true
+        bindingInclude.contactRecyclerView.adapter = adapter
+
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
+
         resultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
@@ -115,7 +127,7 @@ class ReceivedActivity : AppCompatActivity() {
             btChannel?.registerListener(object : CommChannel.Listener {
                 override fun onMessageReceived(receivedMessage: String?) {
                     runOnUiThread {
-                        binding.textView.text = receivedMessage
+                        binding.status.visibility = View.GONE
                     }
                 }
 

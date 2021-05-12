@@ -15,7 +15,20 @@ class ContactViewHolder(
     private val activity: FragmentActivity
 ) : RecyclerView.ViewHolder(itemBinding.root) {
 
-    fun bind(element: Element) {
+    private var _isEditable = false
+
+    var isEditable: Boolean
+        get() {
+            return _isEditable
+        }
+        set(value) {
+            _isEditable = value
+            itemBinding.newButton.isEnabled = value// if (value) View.VISIBLE else View.INVISIBLE
+            (itemBinding.elementRecyclerView.adapter as ElementAdapter).isEditable = value
+
+        }
+
+    fun bind(element: Element, editable: Boolean) {
 
         val res: Resources = activity.resources
 
@@ -51,10 +64,13 @@ class ContactViewHolder(
                 View.INVISIBLE -> {
                 }
             }
-
         }
 
         itemBinding.elementRecyclerView.adapter =
             ElementAdapter(ElementType.values().toList(), activity, element)
+
+        isEditable = editable
     }
+
+
 }

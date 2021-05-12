@@ -20,7 +20,8 @@ class DetailsFragment : Fragment() {
 
     private lateinit var binding: FragmentDetailsBinding
     private lateinit var spinner: AppCompatSpinner
-    private lateinit var textBox: TextInputEditText
+    private lateinit var nameEditText: TextInputEditText
+    private lateinit var surnameEditText: TextInputEditText
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,9 +30,13 @@ class DetailsFragment : Fragment() {
 
         binding = FragmentDetailsBinding.inflate(inflater, container, false)
 
-        textBox = binding.nameTextView
-        textBox.setText("10")
-        textBox.isEnabled = false
+        nameEditText = binding.nameTextView
+        nameEditText.setText("10")
+        nameEditText.isEnabled = false
+
+        surnameEditText = binding.nameTextView
+        surnameEditText.setText("10")
+        surnameEditText.isEnabled = false
 
         spinner = binding.typeSpinner
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -49,25 +54,33 @@ class DetailsFragment : Fragment() {
         spinner.isClickable = false
         spinner.isEnabled = false
 
-        binding.fabEdit.setOnClickListener() {
+        val adapter = ContactAdapter(ElementType.values().toList(), requireActivity())
+        adapter.isEditable = false
+        binding.contactRecyclerView.adapter = adapter
+
+        binding.fabEdit.setOnClickListener {
             spinner.isClickable = true
             spinner.isEnabled = true
-            textBox.isEnabled = true
+            nameEditText.isEnabled = true
+            surnameEditText.isEnabled = true
             binding.fabEdit.hide()
             binding.fabSave.show()
+            adapter.isEditable = true
         }
 
-        binding.fabSave.setOnClickListener() {
+        binding.fabSave.setOnClickListener {
             spinner.isClickable = false
             spinner.isEnabled = false
-            textBox.isEnabled = false
+            nameEditText.isEnabled = false
+            surnameEditText.isEnabled = false
             binding.fabEdit.show()
             binding.fabSave.hide()
+            adapter.isEditable = false
         }
 
 
-        binding.contactRecyclerView.adapter =
-            ContactAdapter(ElementType.values().toList(), requireActivity())
+
+
 
         // Inflate the layout for this fragment
         return binding.root
