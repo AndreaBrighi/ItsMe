@@ -5,10 +5,12 @@ import android.bluetooth.BluetoothAdapter
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatSpinner
 import com.example.itsme.bluetooth.BluetoothChannel
 import com.example.itsme.bluetooth.BluetoothServer
 import com.example.itsme.bluetooth.CommChannel
@@ -21,6 +23,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class ReceivedActivity : AppCompatActivity() {
 
+    private lateinit var spinner: AppCompatSpinner
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
     private lateinit var binding: ActivityReceivedBinding
     private lateinit var bindingInclude: FragmentDetailsBinding
@@ -40,6 +43,20 @@ class ReceivedActivity : AppCompatActivity() {
         val adapter = ContactAdapter(ElementType.values().toList(), this)
         adapter.isEditable = true
         bindingInclude.contactRecyclerView.adapter = adapter
+
+        spinner = bindingInclude.typeSpinner
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.spinner_array_select,
+            android.R.layout.simple_spinner_item
+        ).also {
+            // Specify the layout to use when the list of choices appears
+            it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            // Apply the adapter to the spinner
+            spinner.adapter = it
+        }
+        spinner.setSelection(0)
 
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
 

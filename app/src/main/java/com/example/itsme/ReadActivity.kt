@@ -3,8 +3,10 @@ package com.example.itsme
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatSpinner
 import com.example.itsme.databinding.ActivityReadBinding
 import com.example.itsme.databinding.FragmentDetailsBinding
 import com.example.itsme.recyclerview.ElementType
@@ -14,6 +16,7 @@ import java.io.*
 
 class ReadActivity : AppCompatActivity() {
 
+    private lateinit var spinner: AppCompatSpinner
     private lateinit var bindingInclude: FragmentDetailsBinding
     private lateinit var binding: ActivityReadBinding
 
@@ -54,6 +57,20 @@ class ReadActivity : AppCompatActivity() {
             val adapter = ContactAdapter(ElementType.values().toList(), this)
             adapter.isEditable = true
             bindingInclude.contactRecyclerView.adapter = adapter
+
+            spinner = bindingInclude.typeSpinner
+            // Create an ArrayAdapter using the string array and a default spinner layout
+            ArrayAdapter.createFromResource(
+                this,
+                R.array.spinner_array_select,
+                android.R.layout.simple_spinner_item
+            ).also {
+                // Specify the layout to use when the list of choices appears
+                it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                // Apply the adapter to the spinner
+                spinner.adapter = it
+            }
+            spinner.setSelection(0)
         }
 
     }

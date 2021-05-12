@@ -31,13 +31,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ItsMe">
         <activity
+            android:name=".AddActivity"
+            android:exported="true" />
+        <activity
             android:name=".ReadActivity"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.SEND"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:mimeType="application/cxml"/>
-                <data android:mimeType="*/cxml"/>
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="application/cxml" />
+                <data android:mimeType="*/cxml" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -59,7 +64,7 @@
                 <data android:pathPattern=".*\\..*\\.cxml" />
                 <data android:pathPattern=".*\\..*\\..*\\.cxml" />
                 <data android:pathPattern=".*\\..*\\..*\\..*\\.cxml" />
-<!--                 keep going if you need more -->
+                <!-- keep going if you need more -->
 
             </intent-filter>
         </activity>

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
+import com.example.itsme.AddActivity
 import com.example.itsme.ReceivedActivity
 import com.example.itsme.XMLManager
 import com.example.itsme.databinding.FragmentHomeBinding
@@ -53,7 +54,8 @@ class HomeFragment : Fragment() {
         }
 
         binding.fabAdd.setOnClickListener {
-
+            val intent = Intent(context, AddActivity::class.java)
+            startActivity(intent)
         }
 
 
