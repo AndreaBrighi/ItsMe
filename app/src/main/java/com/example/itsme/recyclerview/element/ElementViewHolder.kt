@@ -7,12 +7,12 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.itsme.databinding.ElementViewBinding
-import com.example.itsme.recyclerview.Element
+import com.example.itsme.model.ElementType
 
 class ElementViewHolder(
     private val itemBinding: ElementViewBinding,
     private val activity: FragmentActivity,
-    private val element: Element
+    private val elementType: ElementType
 ) : RecyclerView.ViewHolder(itemBinding.root) {
 
     private var _isEditable = false
@@ -24,14 +24,14 @@ class ElementViewHolder(
         itemBinding.actionButton.setImageDrawable(
             ResourcesCompat.getDrawable(
                 res,
-                element.getIcon(),
+                elementType.getIcon(),
                 activity.theme
             )
         )
 
         itemBinding.actionButton.setOnClickListener {
             try {
-                activity.startActivity(element.getIntent("222"))
+                activity.startActivity(elementType.getIntent("222"))
             } catch (e: Exception) {
                 Toast.makeText(
                     activity,

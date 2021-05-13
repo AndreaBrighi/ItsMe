@@ -5,12 +5,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.itsme.databinding.ElementViewBinding
-import com.example.itsme.recyclerview.Element
+import com.example.itsme.model.ElementType
 
 class ElementAdapter(
-    private val elementsType: List<Element>,
+    private val elementsType: List<ElementType>,
     private val activity: FragmentActivity,
-    private val element: Element
+    private val elementType: ElementType
 ) : RecyclerView.Adapter<ElementViewHolder>() {
 
     private val holders: MutableList<ElementViewHolder> = ArrayList()
@@ -19,7 +19,7 @@ class ElementAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ElementViewHolder {
         val itemBinding =
             ElementViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ElementViewHolder(itemBinding, activity, element)
+        return ElementViewHolder(itemBinding, activity, elementType)
     }
 
     override fun onBindViewHolder(holder: ElementViewHolder, position: Int) {

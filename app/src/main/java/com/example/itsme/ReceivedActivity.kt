@@ -17,7 +17,7 @@ import com.example.itsme.bluetooth.CommChannel
 import com.example.itsme.bluetooth.utils.C
 import com.example.itsme.databinding.ActivityReceivedBinding
 import com.example.itsme.databinding.FragmentDetailsBinding
-import com.example.itsme.recyclerview.ElementType
+import com.example.itsme.model.ElementTypes
 import com.example.itsme.recyclerview.element.ContactAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
@@ -40,7 +40,7 @@ class ReceivedActivity : AppCompatActivity() {
         setContentView(binding.root)
         bindingInclude = binding.id
 
-        val adapter = ContactAdapter(ElementType.values().toList(), this)
+        val adapter = ContactAdapter(ElementTypes.values().toList(), this)
         adapter.isEditable = true
         bindingInclude.contactRecyclerView.adapter = adapter
 

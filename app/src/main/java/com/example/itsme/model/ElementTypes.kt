@@ -1,10 +1,10 @@
-package com.example.itsme.recyclerview
+package com.example.itsme.model
 
 import android.content.Intent
 import android.net.Uri
 import com.example.itsme.R
 
-enum class ElementType : Element {
+enum class ElementTypes : ElementType {
 
     PHONE {
         override fun getIcon(): Int {
@@ -80,7 +80,7 @@ enum class ElementType : Element {
     }
 }
 
-interface Element {
+interface ElementType {
 
     fun getIcon(): Int
 

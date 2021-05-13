@@ -5,7 +5,7 @@ import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatSpinner
 import com.example.itsme.databinding.FragmentDetailsBinding
-import com.example.itsme.recyclerview.ElementType
+import com.example.itsme.model.ElementTypes
 import com.example.itsme.recyclerview.element.ContactAdapter
 
 class AddActivity : AppCompatActivity() {
@@ -21,7 +21,7 @@ class AddActivity : AppCompatActivity() {
         binding.fabSave.show()
         binding.fabEdit.hide()
 
-        val adapter = ContactAdapter(ElementType.values().toList(), this)
+        val adapter = ContactAdapter(ElementTypes.values().toList(), this)
         adapter.isEditable = true
         binding.contactRecyclerView.adapter = adapter
 

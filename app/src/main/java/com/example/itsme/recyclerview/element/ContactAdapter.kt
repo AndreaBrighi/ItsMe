@@ -6,10 +6,10 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.itsme.databinding.ContactItemBinding
-import com.example.itsme.recyclerview.Element
+import com.example.itsme.model.ElementType
 
 class ContactAdapter(
-    private val elementsType: List<Element>,
+    private val elementsType: List<ElementType>,
     private val activity: FragmentActivity
 ) : RecyclerView.Adapter<ContactViewHolder>() {
 

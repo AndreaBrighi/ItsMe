@@ -7,8 +7,8 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.itsme.R
 import com.example.itsme.databinding.ContactItemBinding
-import com.example.itsme.recyclerview.Element
-import com.example.itsme.recyclerview.ElementType
+import com.example.itsme.model.ElementType
+import com.example.itsme.model.ElementTypes
 
 class ContactViewHolder(
     private val itemBinding: ContactItemBinding,
@@ -28,7 +28,7 @@ class ContactViewHolder(
 
         }
 
-    fun bind(element: Element, editable: Boolean) {
+    fun bind(elementType: ElementType, editable: Boolean) {
 
         val res: Resources = activity.resources
 
@@ -37,7 +37,7 @@ class ContactViewHolder(
 
         itemBinding.numberElementTextView.text =
             res.getQuantityString(R.plurals.elements, number, number)
-        itemBinding.typeTextView.text = res.getString(element.getTitle())
+        itemBinding.typeTextView.text = res.getString(elementType.getTitle())
 
         itemBinding.clickableView.setOnClickListener {
             when (itemBinding.elementRecyclerView.visibility) {
@@ -67,7 +67,7 @@ class ContactViewHolder(
         }
 
         itemBinding.elementRecyclerView.adapter =
-            ElementAdapter(ElementType.values().toList(), activity, element)
+            ElementAdapter(ElementTypes.values().toList(), activity, elementType)
 
         isEditable = editable
     }

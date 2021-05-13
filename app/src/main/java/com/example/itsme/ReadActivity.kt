@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatSpinner
 import com.example.itsme.databinding.ActivityReadBinding
 import com.example.itsme.databinding.FragmentDetailsBinding
-import com.example.itsme.recyclerview.ElementType
+import com.example.itsme.model.ElementTypes
 import com.example.itsme.recyclerview.element.ContactAdapter
 import java.io.*
 
@@ -54,7 +54,7 @@ class ReadActivity : AppCompatActivity() {
             binding.textView.text = text
             bindingInclude = binding.id
 
-            val adapter = ContactAdapter(ElementType.values().toList(), this)
+            val adapter = ContactAdapter(ElementTypes.values().toList(), this)
             adapter.isEditable = true
             bindingInclude.contactRecyclerView.adapter = adapter
 

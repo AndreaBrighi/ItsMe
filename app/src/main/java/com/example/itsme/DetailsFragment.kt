@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter
 import androidx.appcompat.widget.AppCompatSpinner
 import androidx.fragment.app.Fragment
 import com.example.itsme.databinding.FragmentDetailsBinding
-import com.example.itsme.recyclerview.ElementType
+import com.example.itsme.model.ElementTypes
 import com.example.itsme.recyclerview.element.ContactAdapter
 import com.google.android.material.textfield.TextInputEditText
 
@@ -54,7 +54,7 @@ class DetailsFragment : Fragment() {
         spinner.isClickable = false
         spinner.isEnabled = false
 
-        val adapter = ContactAdapter(ElementType.values().toList(), requireActivity())
+        val adapter = ContactAdapter(ElementTypes.values().toList(), requireActivity())
         adapter.isEditable = false
         binding.contactRecyclerView.adapter = adapter
 
