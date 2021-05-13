@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.example.itsme.AddActivity
 import com.example.itsme.ReceivedActivity
-import com.example.itsme.XMLManager
+import com.example.itsme.model.XMLManager
 import com.example.itsme.databinding.FragmentHomeBinding
 import com.example.itsme.ui.main.SectionsPagerAdapter
 import com.google.android.material.tabs.TabLayout
