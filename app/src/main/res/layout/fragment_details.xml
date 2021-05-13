@@ -11,58 +11,58 @@
         android:layout_height="match_parent">
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/labelNameTextView"
+            android:id="@+id/labelFirstNameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:labelFor="@id/nameTextView"
+            android:labelFor="@id/firstNameTextView"
             android:text="@string/name_s"
-            app:layout_constraintBottom_toBottomOf="@id/nameLayout"
+            app:layout_constraintBottom_toBottomOf="@id/firstNameLayout"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/nameLayout" />
+            app:layout_constraintTop_toTopOf="@id/firstNameLayout" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/nameLayout"
+            android:id="@+id/firstNameLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            app:layout_constraintBottom_toBottomOf="@+id/labelNameTextView"
+            app:layout_constraintBottom_toBottomOf="@+id/labelFirstNameTextView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/surnameLayout"
+            app:layout_constraintStart_toStartOf="@+id/lastNameLayout"
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/nameTextView"
+                android:id="@+id/firstNameTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/labelSurnameTextView"
+            android:id="@+id/labelLastNameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:labelFor="@id/surnameTextView"
+            android:labelFor="@id/lastNameTextView"
             android:text="@string/surname"
-            app:layout_constraintBottom_toBottomOf="@id/surnameLayout"
-            app:layout_constraintStart_toStartOf="@+id/labelNameTextView"
-            app:layout_constraintTop_toTopOf="@id/surnameLayout" />
+            app:layout_constraintBottom_toBottomOf="@id/lastNameLayout"
+            app:layout_constraintStart_toStartOf="@+id/labelFirstNameTextView"
+            app:layout_constraintTop_toTopOf="@id/lastNameLayout" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/surnameLayout"
+            android:id="@+id/lastNameLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            app:layout_constraintBottom_toBottomOf="@+id/labelSurnameTextView"
+            app:layout_constraintBottom_toBottomOf="@+id/labelLastNameTextView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/labelSurnameTextView"
-            app:layout_constraintTop_toBottomOf="@id/nameLayout">
+            app:layout_constraintStart_toEndOf="@id/labelLastNameTextView"
+            app:layout_constraintTop_toBottomOf="@id/firstNameLayout">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/surnameTextView"
+                android:id="@+id/lastNameTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -75,7 +75,7 @@
             android:labelFor="@id/typeSpinner"
             android:text="@string/type_s"
             app:layout_constraintBottom_toBottomOf="@+id/typeSpinner"
-            app:layout_constraintStart_toStartOf="@+id/labelNameTextView"
+            app:layout_constraintStart_toStartOf="@+id/labelFirstNameTextView"
             app:layout_constraintTop_toTopOf="@+id/typeSpinner" />
 
         <androidx.appcompat.widget.AppCompatSpinner
@@ -85,8 +85,8 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/surnameLayout"
-            app:layout_constraintTop_toBottomOf="@+id/surnameLayout" />
+            app:layout_constraintStart_toStartOf="@+id/lastNameLayout"
+            app:layout_constraintTop_toBottomOf="@+id/lastNameLayout" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/contactRecyclerView"

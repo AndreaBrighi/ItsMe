@@ -20,8 +20,8 @@ class DetailsFragment : Fragment() {
 
     private lateinit var binding: FragmentDetailsBinding
     private lateinit var spinner: AppCompatSpinner
-    private lateinit var nameEditText: TextInputEditText
-    private lateinit var surnameEditText: TextInputEditText
+    private lateinit var fistNameEditText: TextInputEditText
+    private lateinit var lastNameEditText: TextInputEditText
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,13 +30,13 @@ class DetailsFragment : Fragment() {
 
         binding = FragmentDetailsBinding.inflate(inflater, container, false)
 
-        nameEditText = binding.nameTextView
-        nameEditText.setText("10")
-        nameEditText.isEnabled = false
+        fistNameEditText = binding.firstNameTextView
+        fistNameEditText.setText("10")
+        fistNameEditText.isEnabled = false
 
-        surnameEditText = binding.nameTextView
-        surnameEditText.setText("10")
-        surnameEditText.isEnabled = false
+        lastNameEditText = binding.lastNameTextView
+        lastNameEditText.setText("10")
+        lastNameEditText.isEnabled = false
 
         spinner = binding.typeSpinner
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -61,8 +61,8 @@ class DetailsFragment : Fragment() {
         binding.fabEdit.setOnClickListener {
             spinner.isClickable = true
             spinner.isEnabled = true
-            nameEditText.isEnabled = true
-            surnameEditText.isEnabled = true
+            fistNameEditText.isEnabled = true
+            lastNameEditText.isEnabled = true
             binding.fabEdit.hide()
             binding.fabSave.show()
             adapter.isEditable = true
@@ -71,8 +71,8 @@ class DetailsFragment : Fragment() {
         binding.fabSave.setOnClickListener {
             spinner.isClickable = false
             spinner.isEnabled = false
-            nameEditText.isEnabled = false
-            surnameEditText.isEnabled = false
+            fistNameEditText.isEnabled = false
+            lastNameEditText.isEnabled = false
             binding.fabEdit.show()
             binding.fabSave.hide()
             adapter.isEditable = false

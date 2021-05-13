@@ -25,7 +25,7 @@
     <string name="details">Details</string>
     <string name="refresh">Refresh</string>
     <string name="wait_for_connections">Wait for connections</string>
-    <string name="name_s">Name:</string>
+    <string name="name_s">First name:</string>
     <string name="type_s">Type:</string>
     <string name="delete">delete</string>
     <string name="edit">edit</string>
@@ -37,7 +37,7 @@
     <string name="web">web page</string>
     <string name="facebook">facebook</string>
     <string name="instagram">instagram</string>
-    <string name="surname">Surname:</string>
+    <string name="surname">Last name:</string>
 
     <plurals name="elements">
         <item quantity="one"> %d item</item>
@@ -48,4 +48,5 @@
     <string name="new_long">create new card</string>
     <string name="get_short">get card</string>
     <string name="get_long">get card with bluetooth</string>
+    <string name="name_par">Name: %s</string>
 </resources>
