@@ -1,54 +1,45 @@
 package com.example.itsme.model
 
 import android.util.Log
-import android.util.Xml
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlSerializer
 import java.io.StringReader
 import java.io.StringWriter
 
-class XMLManager {
-
-    fun writeXML(): String {
-        val xmlSerializer = Xml.newSerializer()
-        //Log.v("Tes", xmlString)
-        return xmlSerializer.writeDocument {
-            writeElement("Movies") {
-                for (i in 1..3) {
-                    writeElement("row") {
-                        writeAttribute("no", i.toString())
-                        writeElement("FL", "6000000066015") {
-                            writeAttribute("val", "TicketId")
-                        }
-                        writeElement("FL", "Dunkirk") {
-                            writeAttribute("val", "MovieName")
-                        }
-                        writeElement("FL") {
-                            writeAttribute("val", "TimeLog")
-                            writeElement("row") {
-                                writeAttribute("no", "1")
-                                writeElement("FL", "23/01/2018") {
-                                    writeAttribute("val", "date")
-                                }
-                                writeElement("FL", "08:00") {
-                                    writeAttribute("val", "startTime")
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    fun readXML(string: String) {
-        val xmlString: XmlPullParser = Xml.newPullParser()
-        xmlString.readDocument(string) {
-
-        }
-        //Log.v("Tes", xmlString)
-    }
-}
+//class XMLManager {
+//
+//    fun writeXML(): String {
+//        val xmlSerializer = Xml.newSerializer()
+//        //Log.v("Tes", xmlString)
+//        return xmlSerializer.writeDocument {
+//            writeElement("Movies") {
+//                for (i in 1..3) {
+//                    writeElement("row") {
+//                        writeAttribute("no", i.toString())
+//                        writeElement("FL", "6000000066015") {
+//                            writeAttribute("val", "TicketId")
+//                        }
+//                        writeElement("FL", "Dunkirk") {
+//                            writeAttribute("val", "MovieName")
+//                        }
+//                        writeElement("FL") {
+//                            writeAttribute("val", "TimeLog")
+//                            writeElement("row") {
+//                                writeAttribute("no", "1")
+//                                writeElement("FL", "23/01/2018") {
+//                                    writeAttribute("val", "date")
+//                                }
+//                                writeElement("FL", "08:00") {
+//                                    writeAttribute("val", "startTime")
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
+//}
 
 fun XmlSerializer.writeDocument(
     docName: String = "UTF-8",
@@ -89,47 +80,52 @@ fun XmlSerializer.writeElement(name: String, content: String) =
     }
 
 //  attribute
-fun XmlSerializer.writeAttribute(name: String, value: String) =
+fun XmlSerializer.writeAttribute(name: String, value: String): XmlSerializer =
     attribute("", name, value)
 
-
-private fun XmlPullParser.readDocument(
+ fun XmlPullParser.readDocument(
     string: String,
-    init: XmlPullParser.() -> Unit
-) {
+): HashMap<String, MutableList<String>> {
     val xmlStringReader = StringReader(string)
+    val map = HashMap<String,MutableList<String>>()
     xmlStringReader.buffered(DEFAULT_BUFFER_SIZE)
     setInput(xmlStringReader)
-    var space = "\t"
+    var el:String=""
     var eventType: Int = eventType
     while (eventType != XmlPullParser.END_DOCUMENT) {
         when (eventType) {
-            XmlPullParser.START_DOCUMENT ->
-                Log.v("Tes", "Start document")
+            XmlPullParser.START_DOCUMENT ->{}
+                //Log.v("Tes", "Start document")
             XmlPullParser.START_TAG -> {
-                Log.v("Tes", "${space}Start tag $name")
-                space += "\t"
-                for (i in 0 until attributeCount) {
-                    Log.v("Tes", "${space}attribute name tag ${getAttributeName(i)}")
-                    Log.v("Tes", "${space}attribute value tag ${getAttributeValue(i)}")
+                if(name != "Card" && name!= "element")
+                    el = name
+                //Log.v("Tes", "${space}Start tag $name")
+                if (!map.keys.contains(name) && name != "Card" && name!= "element"){
+                    map[name] = ArrayList()
                 }
-                init()
+//                space += "\t"
+//                for (i in 0 until attributeCount) {
+//                    Log.v("Tes", "${space}attribute name tag ${getAttributeName(i)}")
+//                    Log.v("Tes", "${space}attribute value tag ${getAttributeValue(i)}")
+//                }
             }
             XmlPullParser.END_TAG -> {
-                space = space.replaceFirst("\t", "")
-                Log.v("Tes", "${space}End tag $name")
+                //space = space.replaceFirst("\t", "")
+                //Log.v("Tes", "${space}End tag $name")
             }
-            XmlPullParser.TEXT ->
-                Log.v("Tes", "${space}Text $text")
+            XmlPullParser.TEXT -> {
+                //Log.v("Tes", "${space}Text $text")
+                map[el]!!.add(text)
+            }
         }
         eventType = next()
     }
-    Log.v("Tes", "End document")
-    //return xmlStringWriter.toString()
+//    Log.v("Tes", "End document")
+    return map
 }
 
 //  element
-private fun XmlPullParser.readElement(name: String, init: XmlPullParser.() -> Unit) {
+fun XmlPullParser.readElement(name: String, init: XmlPullParser.() -> Unit) {
     if (name == this.name) {
         var eventType: Int = eventType
         while (eventType != XmlPullParser.END_DOCUMENT) {

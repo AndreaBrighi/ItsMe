@@ -30,55 +30,59 @@
         android:roundIcon="@mipmap/ic_card_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ItsMe">
-        <activity
-            android:name=".AddActivity"
-            android:exported="true" />
-        <activity
-            android:name=".ReadActivity"
+        <receiver
+            android:name=".CardAppWidget"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.SEND" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:mimeType="application/cxml" />
-                <data android:mimeType="*/cxml" />
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/card_app_widget_info" />
+        </receiver>
+
+        <activity
+            android:name=".CardAppWidgetConfigureActivity"
+            android:exported="true"
+            android:theme="@style/Theme.ItsMe.NoActionBar"
+            android:screenOrientation="sensorPortrait">
             <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".AddActivity"
+            android:exported="true"
+            android:theme="@style/Theme.ItsMe.NoActionBar"
+            android:screenOrientation="sensorPortrait"/>
+        <activity
+            android:name=".ReadActivity"
+            android:exported="true"
+            android:theme="@style/Theme.ItsMe.NoActionBar"
+            android:screenOrientation="sensorPortrait">
+            <intent-filter >
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="file" />
-                <data android:scheme="content" />
-                <data android:mimeType="*/*" />
-                <!--
-                    Work around Android's ugly primitive PatternMatcher
-                    implementation that can't cope with finding a . early in
-                    the path unless it's explicitly matched.
-                -->
-                <data android:host="*" />
-                <data android:pathPattern=".*\\.cxml" />
-                <data android:pathPattern=".*\\.cxml" />
-                <data android:pathPattern=".*\\..*\\.cxml" />
-                <data android:pathPattern=".*\\..*\\..*\\.cxml" />
-                <data android:pathPattern=".*\\..*\\..*\\..*\\.cxml" />
-                <!-- keep going if you need more -->
-
+                <data android:mimeType="application/pdf"/>
             </intent-filter>
         </activity>
         <activity
             android:name=".ReceivedActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/Theme.ItsMe.NoActionBar"
+            android:screenOrientation="sensorPortrait"/>
         <activity
             android:name=".FindActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/Theme.ItsMe.NoActionBar"
+            android:screenOrientation="sensorPortrait"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.ItsMe.NoActionBar">
+            android:theme="@style/Theme.ItsMe.NoActionBar"
+            android:screenOrientation="sensorPortrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -2,6 +2,7 @@ package com.example.itsme
 
 import android.app.Activity
 import android.bluetooth.BluetoothAdapter
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -11,14 +12,23 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatSpinner
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
 import com.example.itsme.bluetooth.BluetoothChannel
 import com.example.itsme.bluetooth.BluetoothServer
 import com.example.itsme.bluetooth.CommChannel
 import com.example.itsme.bluetooth.utils.C
 import com.example.itsme.databinding.ActivityReceivedBinding
 import com.example.itsme.databinding.FragmentDetailsBinding
+import com.example.itsme.db.BusinessCard
+import com.example.itsme.db.BusinessCardWithElements
+import com.example.itsme.model.CardTypes
 import com.example.itsme.model.ElementTypes
+import com.example.itsme.model.Utilities
 import com.example.itsme.recyclerview.element.ContactAdapter
+import com.example.itsme.recyclerview.element.States
+import com.example.itsme.viewModel.ListViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class ReceivedActivity : AppCompatActivity() {
@@ -31,6 +41,8 @@ class ReceivedActivity : AppCompatActivity() {
     private var btChannel: BluetoothChannel? = null
     private var btServer: BluetoothServer? = null
     private val btServerListener = BluetoothServerListener()
+    private val cardLive = MutableLiveData<BusinessCardWithElements>()
+    private lateinit var listViewModel: ListViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,9 +52,27 @@ class ReceivedActivity : AppCompatActivity() {
         setContentView(binding.root)
         bindingInclude = binding.id
 
+        binding.status.text = "not connected"
+
+        listViewModel = ViewModelProvider((this as ViewModelStoreOwner?)!!).get(
+            ListViewModel::class.java
+        )
+
         val adapter = ContactAdapter(ElementTypes.values().toList(), this)
-        adapter.isEditable = true
+        adapter.state = States.EDIT
         bindingInclude.contactRecyclerView.adapter = adapter
+        cardLive.value =
+            BusinessCardWithElements(
+                BusinessCard(0, "", "", CardTypes.WORK, true),
+                ArrayList()
+            )
+        adapter.setData(cardLive)
+
+        cardLive.observe(this, {
+            adapter.setData(cardLive)
+            bindingInclude.firstNameTextView.setText(it.card.firstName)
+            bindingInclude.lastNameTextView.setText(it.card.lastName)
+        })
 
         spinner = bindingInclude.typeSpinner
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -57,6 +87,12 @@ class ReceivedActivity : AppCompatActivity() {
             spinner.adapter = it
         }
         spinner.setSelection(0)
+
+        bindingInclude.shareButton.visibility = View.GONE
+        bindingInclude.sendButton.visibility = View.GONE
+
+        bindingInclude.fabEdit.visibility = View.GONE
+        bindingInclude.fabSave.visibility = View.VISIBLE
 
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
 
@@ -81,6 +117,27 @@ class ReceivedActivity : AppCompatActivity() {
 
         permissionGranted()
         startBluetoothServer()
+
+        bindingInclude.fabSave.setOnClickListener { save(cardLive) }
+    }
+
+    private fun save(cardLive: MutableLiveData<BusinessCardWithElements>) {
+        cardLive.value!!.card.firstName = bindingInclude.firstNameTextView.text.toString()
+        cardLive.value!!.card.lastName = bindingInclude.lastNameTextView.text.toString()
+        cardLive.value!!.card.types =
+            CardTypes.valueOf(spinner.selectedItem.toString().uppercase())
+
+        if (cardLive.value!!.card.firstName.isBlank() || cardLive.value!!.card.lastName.isBlank() || cardLive.value!!.elements.size == 0) {
+            MaterialAlertDialogBuilder(this)
+                .setTitle("Error")
+                .setMessage("Incomplete business card.\n You must insert a first name, a last name add, at last one element")
+                .setNeutralButton("Ok") { di: DialogInterface, _: Int ->
+                    di.dismiss()
+                }.show()
+        } else {
+            listViewModel.addCard(cardLive.value!!)
+            finish()
+        }
     }
 
     override fun onStop() {
@@ -136,16 +193,12 @@ class ReceivedActivity : AppCompatActivity() {
         }
 
         override fun onConnectionAccepted(btChannel: CommChannel?) {
-//            runOnUiThread {
-//                (getString(
-//                    R.string.status
-//                ) + "connected").also { binding.statusLabel.text = it }
-//            }
+            runOnUiThread {
+                binding.status.text = "connected"
+            }
             btChannel?.registerListener(object : CommChannel.Listener {
                 override fun onMessageReceived(receivedMessage: String?) {
-                    runOnUiThread {
-                        binding.status.visibility = View.GONE
-                    }
+                    cardLive.postValue(Utilities.readXMLString(receivedMessage!!))
                 }
 
                 override fun onMessageSent(sentMessage: String?) {

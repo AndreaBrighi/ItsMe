@@ -4,22 +4,33 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.widget.AppCompatSpinner
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.example.itsme.R
 import com.example.itsme.databinding.FragmentMainBinding
+import com.example.itsme.db.BusinessCardWithElements
+import com.example.itsme.model.CardTypes
 import com.example.itsme.recyclerview.card.CardAdapter
+import com.example.itsme.viewModel.ListViewModel
+import java.util.function.Predicate
 
 /**
  * A placeholder fragment containing a simple view.
  */
-class MainFragment : Fragment() {
+class MainFragment(private val config: Boolean = false) : Fragment() {
 
     private lateinit var pageViewModel: PageViewModel
     private var _binding: FragmentMainBinding? = null
+    private var listViewModel: ListViewModel? = null
+    private var position = 1
+    private var predicatePage = Predicate<BusinessCardWithElements> { true }
+    private var predicateFilter = Predicate<BusinessCardWithElements> { true }
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -29,6 +40,7 @@ class MainFragment : Fragment() {
         super.onCreate(savedInstanceState)
         pageViewModel = ViewModelProvider(this).get(PageViewModel::class.java).apply {
             setIndex(arguments?.getInt(ARG_SECTION_NUMBER) ?: 1)
+            position = arguments?.getInt(ARG_SECTION_NUMBER) ?: 1
         }
     }
 
@@ -55,8 +67,94 @@ class MainFragment : Fragment() {
 
         val recyclerView: RecyclerView = binding.cardRecyclerView
         recyclerView.setHasFixedSize(true)
-        val l: List<Int> = listOf(1, 2)
-        recyclerView.adapter = CardAdapter(l, this.requireActivity())
+        val adapter = CardAdapter(this.requireActivity(), config)
+
+
+
+
+        recyclerView.adapter = adapter
+        listViewModel = ViewModelProvider((activity as ViewModelStoreOwner?)!!).get(
+            ListViewModel::class.java
+        )
+
+        when (binding.spinnerFilter.selectedItem.toString()) {
+            "All" -> {
+                predicateFilter = Predicate<BusinessCardWithElements> { true }
+            }
+            "Work" -> {
+                predicateFilter =
+                    Predicate<BusinessCardWithElements> { it.card.types == CardTypes.WORK }
+            }
+            "Social" -> {
+                predicateFilter =
+                    Predicate<BusinessCardWithElements> { it.card.types == CardTypes.SOCIAL }
+            }
+            else -> {
+            }
+        }
+
+
+
+
+        when (position) {
+            1 -> {
+                predicatePage = Predicate<BusinessCardWithElements> { !it.card.received }
+            }
+            2 -> {
+                predicatePage = Predicate<BusinessCardWithElements> { it.card.received }
+            }
+            else -> {
+            }
+        }
+
+        listViewModel!!.getCardItems()
+            .observe(activity as LifecycleOwner) { cardItems ->
+                if (cardItems != null) {
+                    adapter.setData(
+                        cardItems.filter { predicatePage.test(it) && predicateFilter.test(it) }.distinct()
+                    )
+                }
+            }
+
+        binding.spinnerFilter.onItemSelectedListener = object :AdapterView.OnItemSelectedListener {
+
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                when (binding.spinnerFilter.selectedItem.toString()) {
+                    "All" -> {
+                        predicateFilter = Predicate<BusinessCardWithElements> { true }
+                    }
+                    "Work" -> {
+                        predicateFilter =
+                            Predicate<BusinessCardWithElements> { it.card.types == CardTypes.WORK }
+                    }
+                    "Social" -> {
+                        predicateFilter =
+                            Predicate<BusinessCardWithElements> { it.card.types == CardTypes.SOCIAL }
+                    }
+                    else -> {
+                    }
+
+                }
+                listViewModel!!.getCardItems()
+                    .observe(activity as LifecycleOwner) { cardItems ->
+                        if (cardItems != null) {
+                            adapter.setData(
+                                cardItems.filter { predicatePage.test(it) && predicateFilter.test(it) }.distinct()
+                            )
+                        }
+                    }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+        }
+
 //        arguments?.takeIf { it.containsKey(ARG_SECTION_NUMBER) }?.apply {
 //            when( getInt(ARG_SECTION_NUMBER)) {
 //                1 ->
@@ -79,8 +177,8 @@ class MainFragment : Fragment() {
          * number.
          */
         @JvmStatic
-        fun newInstance(sectionNumber: Int): MainFragment {
-            return MainFragment().apply {
+        fun newInstance(sectionNumber: Int, config: Boolean): MainFragment {
+            return MainFragment(config).apply {
                 arguments = Bundle().apply {
                     putInt(ARG_SECTION_NUMBER, sectionNumber)
                 }

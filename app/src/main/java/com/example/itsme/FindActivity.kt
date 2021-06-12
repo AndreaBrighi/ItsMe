@@ -21,10 +21,15 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
 import com.example.itsme.bluetooth.*
 import com.example.itsme.bluetooth.exception.BluetoothDeviceNotFound
 import com.example.itsme.bluetooth.utils.C
 import com.example.itsme.databinding.ActivityFindBinding
+import com.example.itsme.db.BusinessCardWithElements
+import com.example.itsme.viewModel.ListViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.util.*
 import kotlin.collections.ArrayList
@@ -37,6 +42,7 @@ class FindActivity : AppCompatActivity() {
     private lateinit var mPairedDevices: MutableList<BluetoothDevice>
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
+    private lateinit var cardLive:LiveData<BusinessCardWithElements>
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,12 +52,18 @@ class FindActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
+        val listViewModel = ViewModelProvider((this as ViewModelStoreOwner?)!!).get(
+            ListViewModel::class.java
+        )
+
+        cardLive = listViewModel.selected
+
         requestPermissionLauncher = registerForActivityResult(
             ActivityResultContracts.RequestPermission()
         ) { result ->
             if (!result) {
                 MaterialAlertDialogBuilder(this)
-                    .setTitle("T")
+                    .setTitle("Permission request")
                     .setMessage("Location permission needed")
                     .setPositiveButton(
                         android.R.string.ok
@@ -199,7 +211,12 @@ class FindActivity : AppCompatActivity() {
                         btChannel?.close()
                     }
                 })
-                btChannel?.sendMessage("test")
+                //btChannel?.sendMessage("test")
+                cardLive.observe(this@FindActivity){
+                    btChannel?.sendMessage(it.getXMLString())
+                }
+
+                //btChannel?.sendMessage(cardLive.value!!.getXMLString())
             }
 
             override fun onConnectionCanceled() {

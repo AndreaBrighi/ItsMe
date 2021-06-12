@@ -10,6 +10,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/deleteButton"
+            style="?attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/delete"
+            app:icon="@drawable/ic_baseline_delete_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:visibility="gone"/>
+
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/labelFirstNameTextView"
             android:layout_width="wrap_content"
@@ -25,17 +38,19 @@
             android:id="@+id/firstNameLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp"
+            app:endIconMode="clear_text"
             app:layout_constraintBottom_toBottomOf="@+id/labelFirstNameTextView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/lastNameLayout"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/deleteButton">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/firstNameTextView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:imeOptions="flagNoExtractUi" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -59,12 +74,14 @@
             app:layout_constraintBottom_toBottomOf="@+id/labelLastNameTextView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/labelLastNameTextView"
-            app:layout_constraintTop_toBottomOf="@id/firstNameLayout">
+            app:layout_constraintTop_toBottomOf="@id/firstNameLayout"
+            app:endIconMode="clear_text">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/lastNameTextView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:imeOptions="flagNoExtractUi"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -88,19 +105,45 @@
             app:layout_constraintStart_toStartOf="@+id/lastNameLayout"
             app:layout_constraintTop_toBottomOf="@+id/lastNameLayout" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/shareButton"
+            style="?attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/share"
+            app:icon="@drawable/ic_baseline_share_24"
+            app:layout_constraintEnd_toStartOf="@+id/sendButton"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/typeSpinner" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/sendButton"
+            style="?attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/send"
+            app:icon="@drawable/ic_baseline_bluetooth_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/shareButton"
+            app:layout_constraintTop_toTopOf="@+id/shareButton" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/contactRecyclerView"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/typeSpinner"
+            app:layout_constraintTop_toBottomOf="@+id/sendButton"
             tools:listitem="@layout/contact_item" />
 
 

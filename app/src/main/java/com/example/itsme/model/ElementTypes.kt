@@ -2,6 +2,7 @@ package com.example.itsme.model
 
 import android.content.Intent
 import android.net.Uri
+import android.text.InputType
 import com.example.itsme.R
 
 enum class ElementTypes : ElementType {
@@ -15,6 +16,10 @@ enum class ElementTypes : ElementType {
             return R.string.cell
         }
 
+        override fun getInput(): Int {
+            return InputType.TYPE_CLASS_PHONE
+        }
+
         override fun getIntent(value: String): Intent {
             return Intent(Intent.ACTION_DIAL, Uri.parse("tel:$value"))
         }
@@ -26,6 +31,10 @@ enum class ElementTypes : ElementType {
 
         override fun getTitle(): Int {
             return R.string.email
+        }
+
+        override fun getInput(): Int {
+            return InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
         }
 
         override fun getIntent(value: String): Intent {
@@ -45,6 +54,10 @@ enum class ElementTypes : ElementType {
             return R.string.web
         }
 
+        override fun getInput(): Int {
+            return InputType.TYPE_CLASS_TEXT
+        }
+
         override fun getIntent(value: String): Intent {
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse(value)
@@ -60,6 +73,10 @@ enum class ElementTypes : ElementType {
             return R.string.facebook
         }
 
+        override fun getInput(): Int {
+            return InputType.TYPE_CLASS_TEXT
+        }
+
         override fun getIntent(value: String): Intent {
             return Intent(Intent.ACTION_VIEW, Uri.parse(value))
         }
@@ -71,6 +88,10 @@ enum class ElementTypes : ElementType {
 
         override fun getTitle(): Int {
             return R.string.instagram
+        }
+
+        override fun getInput(): Int {
+            return InputType.TYPE_CLASS_TEXT
         }
 
         override fun getIntent(value: String): Intent {
@@ -85,6 +106,8 @@ interface ElementType {
     fun getIcon(): Int
 
     fun getTitle(): Int
+
+    fun getInput(): Int
 
     fun getIntent(value: String): Intent
 }

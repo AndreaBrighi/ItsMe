@@ -8,13 +8,13 @@ import com.example.itsme.model.CardTypes
 @Entity(tableName = "business_cards")
 data class BusinessCard(
     @PrimaryKey(autoGenerate = true)
-    val uid: Long = 0,
+    val uidC: Long = 0,
     @ColumnInfo(name = "first_name")
-    val firstName: String?,
+    var firstName: String,
     @ColumnInfo(name = "last_name")
-    val lastName: String?,
+    var lastName: String,
     @ColumnInfo(name = "type")
-    val types: CardTypes,
+    var types: CardTypes,
     @ColumnInfo(name = "received")
     val received: Boolean
 

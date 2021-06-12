@@ -7,7 +7,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.itsme.R
 
-class SectionsPagerAdapter(private val fa: FragmentActivity) :
+class SectionsPagerAdapter(private val fa: FragmentActivity, private val config: Boolean=false) :
     FragmentStateAdapter(fa) {
 
     private val tabTitles = fa.resources.getStringArray(R.array.tabs_text)
@@ -16,7 +16,7 @@ class SectionsPagerAdapter(private val fa: FragmentActivity) :
     override fun createFragment(position: Int): Fragment {
         // getItem is called to instantiate the fragment for the given page.
         // Return a PlaceholderFragment (defined as a static inner class below).
-        return MainFragment.newInstance(position + 1)
+        return MainFragment.newInstance(position + 1, config)
     }
 
     fun getPageTitle(position: Int): CharSequence {

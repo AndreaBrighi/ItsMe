@@ -1,37 +1,58 @@
 package com.example.itsme.recyclerview.element
 
+import android.content.DialogInterface
 import android.content.res.Resources
-import android.view.View
 import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
+import com.example.itsme.EditDialogFragment
 import com.example.itsme.databinding.ElementViewBinding
-import com.example.itsme.model.ElementType
+import com.example.itsme.db.BusinessCardElement
+import com.example.itsme.db.BusinessCardWithElements
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class ElementViewHolder(
     private val itemBinding: ElementViewBinding,
-    private val activity: FragmentActivity,
-    private val elementType: ElementType
+    private val activity: FragmentActivity
 ) : RecyclerView.ViewHolder(itemBinding.root) {
 
-    private var _isEditable = false
+    private var _state = States.ACTION
+    private val res: Resources = activity.resources
 
-    fun bind(position: Int, editable: Boolean) {
+    fun bind(element: BusinessCardElement, cardItem: MutableLiveData<BusinessCardWithElements>) {
 
-        val res: Resources = activity.resources
+        itemBinding.InfoTextView.text = element.value
 
         itemBinding.actionButton.setImageDrawable(
             ResourcesCompat.getDrawable(
                 res,
-                elementType.getIcon(),
+                element.elementType.getIcon(),
                 activity.theme
             )
         )
 
+        itemBinding.deleteButton.setOnClickListener{
+            MaterialAlertDialogBuilder(activity)
+                .setTitle("Delete ")
+                .setMessage("Do you want to delete "+element.value+ " from "+ res.getString(element.elementType.getTitle()))
+                .setPositiveButton("Delete") { _: DialogInterface, _: Int ->
+                    cardItem.value!!.elements.remove(element).also { cardItem.value=cardItem.value }
+                }
+                .setNegativeButton("Keep") { di: DialogInterface, _: Int ->
+                    di.dismiss()
+                }.show()
+        }
+
+        itemBinding.editButton.setOnClickListener{
+            showEditDialog(element, cardItem)
+        }
+
         itemBinding.actionButton.setOnClickListener {
             try {
-                activity.startActivity(elementType.getIntent("222"))
+                activity.startActivity(element.elementType.getIntent(element.value))
             } catch (e: Exception) {
                 Toast.makeText(
                     activity,
@@ -40,18 +61,32 @@ class ElementViewHolder(
                 ).show()
             }
         }
-
-        isEditable = editable
     }
 
-    var isEditable: Boolean
+    private fun showEditDialog(
+        element: BusinessCardElement,
+        card: MutableLiveData<BusinessCardWithElements> ) {
+        val fm: FragmentManager = activity.supportFragmentManager
+        val editNameDialogFragment: EditDialogFragment =
+            EditDialogFragment.newInstance(res.getString(element.elementType.getTitle()), element.elementType.getInput() ,element.value )
+        editNameDialogFragment.show(fm, "fragment_edit_name")
+        fm.setFragmentResultListener("requestKey", activity) { key, bundle ->
+            if (key == "requestKey") {
+                card.value!!.elements.find { it.uid == element.uid }!!.value = bundle.getString("value")!!
+                // Get result from bundle
+                card.value = card.value
+            }
+        }
+    }
+
+    var state: States
         get() {
-            return _isEditable
+            return _state
         }
         set(value) {
-            _isEditable = value
-            val visibility: Int = if (value) View.VISIBLE else View.INVISIBLE
-            itemBinding.editButton.isEnabled = value
-            itemBinding.deleteButton.isEnabled = value
+            _state = value
+            itemBinding.editButton.isEnabled = value.editButton()
+            itemBinding.deleteButton.isEnabled = value.editButton()
+            itemBinding.actionButton.isEnabled = value.actionButton()
         }
 }
