@@ -77,6 +77,7 @@ class CardViewHolder(
             )
             listViewModel.select(card)
             val intent = Intent(activity.baseContext, FindActivity::class.java)
+            intent.putExtra("xml", card.getXMLString())
             activity.startActivity(intent)
         }
 

@@ -114,6 +114,7 @@ class DetailsFragment(private val config: Boolean = false) : Fragment() {
 
         binding.sendButton.setOnClickListener {
             val intent = Intent(requireActivity().baseContext, FindActivity::class.java)
+            intent.putExtra("xml", cardLive.value!!.getXMLString())
             requireActivity().startActivity(intent)
         }
 

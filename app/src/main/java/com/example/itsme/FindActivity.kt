@@ -21,18 +21,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStoreOwner
 import com.example.itsme.bluetooth.*
 import com.example.itsme.bluetooth.exception.BluetoothDeviceNotFound
 import com.example.itsme.bluetooth.utils.C
 import com.example.itsme.databinding.ActivityFindBinding
-import com.example.itsme.db.BusinessCardWithElements
-import com.example.itsme.viewModel.ListViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class FindActivity : AppCompatActivity() {
@@ -42,7 +36,7 @@ class FindActivity : AppCompatActivity() {
     private lateinit var mPairedDevices: MutableList<BluetoothDevice>
     private lateinit var resultLauncher: ActivityResultLauncher<Intent>
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
-    private lateinit var cardLive:LiveData<BusinessCardWithElements>
+    private lateinit var cardLive: String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,11 +46,7 @@ class FindActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
-        val listViewModel = ViewModelProvider((this as ViewModelStoreOwner?)!!).get(
-            ListViewModel::class.java
-        )
-
-        cardLive = listViewModel.selected
+        cardLive = intent.extras?.getString("xml")!!
 
         requestPermissionLauncher = registerForActivityResult(
             ActivityResultContracts.RequestPermission()
@@ -94,16 +84,16 @@ class FindActivity : AppCompatActivity() {
                 }
             }
 
-        permissionGranted()
-
-
-
+        mPairedDevices = ArrayList()
         binding.refreshButton.setOnClickListener { pairedDeviceList() }
 
-        mPairedDevices = ArrayList()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        permissionGranted()
 
         pairedDeviceList()
-
     }
 
     override fun onDestroy() {
@@ -159,24 +149,19 @@ class FindActivity : AppCompatActivity() {
 
     private fun pairedDeviceList() {
 
-        if (!mBluetoothAdapter.isEnabled) {
-            bluetoothEnable()
-        } else {
 
-
-            if (mBluetoothAdapter.isDiscovering) {
-                mBluetoothAdapter.cancelDiscovery()
-            }
-
-            mBluetoothAdapter.startDiscovery()
-
-
-            val filter = IntentFilter(BluetoothDevice.ACTION_FOUND)
-            registerReceiver(mReceiver, filter)
-
-            //mPairedDevices = mBluetoothAdapter.bondedDevices
-
+        if (mBluetoothAdapter.isDiscovering) {
+            mBluetoothAdapter.cancelDiscovery()
         }
+
+        mBluetoothAdapter.startDiscovery()
+
+
+        val filter = IntentFilter(BluetoothDevice.ACTION_FOUND)
+        registerReceiver(mReceiver, filter)
+
+        //mPairedDevices = mBluetoothAdapter.bondedDevices
+
 
     }
 
@@ -212,9 +197,8 @@ class FindActivity : AppCompatActivity() {
                     }
                 })
                 //btChannel?.sendMessage("test")
-                cardLive.observe(this@FindActivity){
-                    btChannel?.sendMessage(it.getXMLString())
-                }
+                btChannel?.sendMessage(cardLive)
+
 
                 //btChannel?.sendMessage(cardLive.value!!.getXMLString())
             }
@@ -242,15 +226,15 @@ class FindActivity : AppCompatActivity() {
     private fun permissionGranted() {
         if (BluetoothAdapter.getDefaultAdapter() == null) {
             Toast.makeText(this, "this device doesn't support bluetooth", Toast.LENGTH_SHORT).show()
-            return
+            finish()
         }
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
 
         if (!mBluetoothAdapter.isEnabled) {
             bluetoothEnable()
         }
-
         checkLocationPermission()
+
 
     }
 
@@ -261,14 +245,14 @@ class FindActivity : AppCompatActivity() {
             // The dialog is automatically dismissed when a dialog button is clicked.
             .setPositiveButton(
                 android.R.string.ok
-            ) { _, _ ->
+            ) { id, _ ->
+                id.dismiss()
                 val enableBluetoothIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
                 resultLauncher.launch(enableBluetoothIntent)
             } // A null listener allows the button to dismiss the dialog and take no further action.
             .setNegativeButton(android.R.string.cancel) { _, _ ->
                 finish()
-            }
-            .show()
+            }.show()
     }
 
     private fun checkLocationPermission() {
@@ -290,8 +274,8 @@ class FindActivity : AppCompatActivity() {
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
                 MaterialAlertDialogBuilder(this)
-                    .setTitle("T")
-                    .setMessage("E")
+                    .setTitle("Localization Permission")
+                    .setMessage("This app request to access to you position to find other device")
                     .setPositiveButton(
                         android.R.string.ok
                     ) { _, _ -> //Prompt the user once explanation has been shown

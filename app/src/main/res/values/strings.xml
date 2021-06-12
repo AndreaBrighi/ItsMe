@@ -1,7 +1,7 @@
 <resources>
     <string-array name="tabs_text">
         <item>Mine</item>
-        <item>Own</item>
+        <item>Obtained</item>
     </string-array>
     <string name="app_name">It\'s me</string>
     <string name="social">Social</string>
@@ -51,12 +51,11 @@
     <string name="name_par">Name: %s</string>
     <string name="type_par">Type: %s</string>
     <string name="app_widget_description">app widget</string>
-    <string name="owner">owner</string>
     <string name="app_widget_configuration">App widget configuration</string>
     <string name="bluetooth_research">Bluetooth research</string>
     <string name="received_business_card">Received business card</string>
     <string name="add_business_card">Add business card</string>
     <string name="insert_par">Insert %s</string>
-    <string name="insert">insert</string>
-    <string name="cancel">cancel</string>
+    <string name="insert">Insert</string>
+    <string name="cancel">Cancel</string>
 </resources>

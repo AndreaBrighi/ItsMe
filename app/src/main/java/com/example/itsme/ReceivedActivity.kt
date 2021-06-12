@@ -142,8 +142,8 @@ class ReceivedActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        btServer?.terminate()
         btChannel?.close()
+        btServer?.terminate()
     }
 
     private fun permissionGranted() {
