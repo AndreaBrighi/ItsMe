@@ -124,7 +124,7 @@ class DetailsFragment(private val config: Boolean = false) : Fragment() {
                 val shareIntent: Intent = Intent().apply {
                     action = Intent.ACTION_SEND
                     putExtra(Intent.EXTRA_STREAM, uriText)
-                    type = "application/pdf"
+                    type = "application/xhtml+xml"
                 }
                 requireActivity().startActivity(Intent.createChooser(shareIntent, "Send"))
             }

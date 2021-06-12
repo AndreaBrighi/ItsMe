@@ -19,7 +19,7 @@ object Utilities {
 
     fun saveFile(activity: Activity, card: BusinessCardWithElements): Uri? {
 
-        val name = "card.pdf"
+        val name = "card.xml"
 
 
         val contentUri = MediaStore.Files.getContentUri("external")
@@ -65,7 +65,7 @@ object Utilities {
                     )       //file name
                     values.put(
                         MediaStore.MediaColumns.MIME_TYPE,
-                        "application/pdf"
+                        "application/xhtml+xml"
                     )        //file extension, will automatically add to file
                     values.put(
                         MediaStore.MediaColumns.RELATIVE_PATH,

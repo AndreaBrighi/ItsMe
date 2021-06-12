@@ -87,7 +87,7 @@ class CardViewHolder(
                 val shareIntent: Intent = Intent().apply {
                     action = Intent.ACTION_SEND
                     putExtra(Intent.EXTRA_STREAM, uriText)
-                    type = "application/pdf"
+                    type = "application/xhtml+xml"
                 }
                 activity.startActivity(Intent.createChooser(shareIntent, "Send"))
             }

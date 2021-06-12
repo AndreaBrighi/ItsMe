@@ -61,10 +61,17 @@
             android:exported="true"
             android:theme="@style/Theme.ItsMe.NoActionBar"
             android:screenOrientation="sensorPortrait">
-            <intent-filter >
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="application/pdf"/>
+                <data android:mimeType="text/xml" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="file"
+                    android:host="*"
+                    android:pathPattern=".*\\.xml" />
             </intent-filter>
         </activity>
         <activity
