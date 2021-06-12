@@ -9,6 +9,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.util.Xml
 import android.widget.Toast
+import com.example.itsme.R
 import com.example.itsme.db.BusinessCard
 import com.example.itsme.db.BusinessCardElement
 import com.example.itsme.db.BusinessCardWithElements
@@ -89,7 +90,7 @@ object Utilities {
 
                 outputStream?.close()
             } catch (e: IOException) {
-                Toast.makeText(activity, "Fail to write file", Toast.LENGTH_SHORT)
+                Toast.makeText(activity, activity.resources.getString(R.string.fail_file), Toast.LENGTH_SHORT)
                     .show()
 
             }
@@ -114,8 +115,8 @@ object Utilities {
         )
 
         for (elem in ElementTypes.values()){
-            if(map.containsKey(elem.toString())) {
-                for (value in map[elem.toString()]!!) {
+            if(map.containsKey(elem.toString().lowercase())) {
+                for (value in map[elem.toString().lowercase()]!!) {
                     card.elements.add(BusinessCardElement(0, elem, value))
                 }
             }

@@ -12,7 +12,6 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
@@ -53,8 +52,8 @@ class FindActivity : AppCompatActivity() {
         ) { result ->
             if (!result) {
                 MaterialAlertDialogBuilder(this)
-                    .setTitle("Permission request")
-                    .setMessage("Location permission needed")
+                    .setTitle(getString(R.string.permission_request))
+                    .setMessage(getString(R.string.location_info))
                     .setPositiveButton(
                         android.R.string.ok
                     ) { _, _ -> //Prompt the user once explanation has been shown
@@ -69,16 +68,16 @@ class FindActivity : AppCompatActivity() {
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
                     if (mBluetoothAdapter.isEnabled) {
-                        Toast.makeText(this, "Bluetooth has been enabled", Toast.LENGTH_SHORT)
+                        Toast.makeText(this, resources.getText(R.string.bluetooth_enable), Toast.LENGTH_SHORT)
                             .show()
                     } else {
-                        Toast.makeText(this, "Bluetooth has been disabled", Toast.LENGTH_SHORT)
+                        Toast.makeText(this, resources.getText(R.string.bluetooth_disable), Toast.LENGTH_SHORT)
                             .show()
                     }
                 } else if (result.resultCode == Activity.RESULT_CANCELED) {
                     Toast.makeText(
                         this,
-                        "Bluetooth enabling has been canceled",
+                        resources.getText(R.string.bluetooth_cancel),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -121,12 +120,12 @@ class FindActivity : AppCompatActivity() {
 //                    }
                     mPairedDevices.add(device)
                     mPairedDevices = mPairedDevices.distinct().toMutableList()
-                    Log.i(
-                        "BTT", """
-                         ${device.name}
-                         ${device.address}
-                         """.trimIndent()
-                    )
+//                    Log.i(
+//                        "BTT", """
+//                         ${device.name}
+//                         ${device.address}
+//                         """.trimIndent()
+//                    )
                     val adapter = ArrayAdapter(
                         context,
                         android.R.layout.simple_list_item_1,
@@ -191,7 +190,7 @@ class FindActivity : AppCompatActivity() {
                     }
 
                     override fun onMessageSent(sentMessage: String?) {
-                        Toast.makeText(baseContext, "send", Toast.LENGTH_SHORT)
+                        Toast.makeText(baseContext, getString(R.string.sent), Toast.LENGTH_SHORT)
                             .show()
                         btChannel?.close()
                     }
@@ -225,7 +224,7 @@ class FindActivity : AppCompatActivity() {
 
     private fun permissionGranted() {
         if (BluetoothAdapter.getDefaultAdapter() == null) {
-            Toast.makeText(this, "this device doesn't support bluetooth", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.no_bluetooth), Toast.LENGTH_SHORT).show()
             finish()
         }
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
@@ -240,8 +239,8 @@ class FindActivity : AppCompatActivity() {
 
     private fun bluetoothEnable() {
         MaterialAlertDialogBuilder(this)
-            .setTitle("Bluetooth required")
-            .setMessage("Bluetooth permission required") // Specifying a listener allows you to take an action before dismissing the dialog.
+            .setTitle(getString(R.string.bluetooth_required))
+            .setMessage(getString(R.string.bluetooth_permission)) // Specifying a listener allows you to take an action before dismissing the dialog.
             // The dialog is automatically dismissed when a dialog button is clicked.
             .setPositiveButton(
                 android.R.string.ok
@@ -274,8 +273,8 @@ class FindActivity : AppCompatActivity() {
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
                 MaterialAlertDialogBuilder(this)
-                    .setTitle("Localization Permission")
-                    .setMessage("This app request to access to you position to find other device")
+                    .setTitle(getString(R.string.location_permission))
+                    .setMessage(getString(R.string.loaction_info))
                     .setPositiveButton(
                         android.R.string.ok
                     ) { _, _ -> //Prompt the user once explanation has been shown

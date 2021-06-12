@@ -5,6 +5,7 @@ import android.net.Uri
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.*
+import com.example.itsme.R
 import com.example.itsme.db.BusinessCardRepository
 import com.example.itsme.db.BusinessCardWithElements
 import com.example.itsme.model.Utilities
@@ -32,18 +33,6 @@ class ListViewModel(application: Application) : AndroidViewModel(application) {
 
     fun getCardItems(): LiveData<List<BusinessCardWithElements>?> {
         return cardItems
-    }
-
-    private fun addCardItem(item: BusinessCardWithElements) {
-        val list: MutableList<BusinessCardWithElements> = ArrayList()
-        list.add(item)
-        if (cardItems.value != null) {
-            list.addAll(cardItems.value!!)
-        }
-    }
-
-    fun getCardItem(position: Int): BusinessCardWithElements? {
-        return if (cardItems.value == null) null else cardItems.value!![position]
     }
 
     fun getCardItemFromId(id: Long): LiveData<BusinessCardWithElements?>? {
@@ -94,7 +83,7 @@ class ListViewModel(application: Application) : AndroidViewModel(application) {
                 input.close()
                 inputStream?.close()
             } catch (e: IOException) {
-                        Toast.makeText(activity, "Fail to read file", Toast.LENGTH_SHORT)
+                        Toast.makeText(activity, activity.resources.getString(R.string.fail_file), Toast.LENGTH_SHORT)
                             .show()
             }
         }

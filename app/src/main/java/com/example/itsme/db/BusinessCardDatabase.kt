@@ -14,8 +14,8 @@ abstract class BusinessCardDatabase : RoomDatabase() {
     object STATIC {
         @Volatile
         var INSTANCE: BusinessCardDatabase? = null
-        val NUMBER_OF_THREADS = 4
-        val databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS)
+        private const val NUMBER_OF_THREADS = 4
+        val databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS)!!
 
 
         fun getDatabase(context: Context): BusinessCardDatabase {

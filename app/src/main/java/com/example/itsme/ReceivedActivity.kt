@@ -52,7 +52,7 @@ class ReceivedActivity : AppCompatActivity() {
         setContentView(binding.root)
         bindingInclude = binding.id
 
-        binding.status.text = "not connected"
+        binding.status.text = getString(R.string.not_connected)
 
         listViewModel = ViewModelProvider((this as ViewModelStoreOwner?)!!).get(
             ListViewModel::class.java
@@ -100,16 +100,16 @@ class ReceivedActivity : AppCompatActivity() {
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
                     if (mBluetoothAdapter.isEnabled) {
-                        Toast.makeText(this, "Bluetooth has been enabled", Toast.LENGTH_SHORT)
+                        Toast.makeText(this, resources.getText(R.string.bluetooth_enable), Toast.LENGTH_SHORT)
                             .show()
                     } else {
-                        Toast.makeText(this, "Bluetooth has been disabled", Toast.LENGTH_SHORT)
+                        Toast.makeText(this, resources.getText(R.string.bluetooth_disable), Toast.LENGTH_SHORT)
                             .show()
                     }
                 } else if (result.resultCode == Activity.RESULT_CANCELED) {
                     Toast.makeText(
                         this,
-                        "Bluetooth enabling has been canceled",
+                        resources.getText(R.string.bluetooth_cancel),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -125,13 +125,13 @@ class ReceivedActivity : AppCompatActivity() {
         cardLive.value!!.card.firstName = bindingInclude.firstNameTextView.text.toString()
         cardLive.value!!.card.lastName = bindingInclude.lastNameTextView.text.toString()
         cardLive.value!!.card.types =
-            CardTypes.valueOf(spinner.selectedItem.toString().uppercase())
+            CardTypes.values()[spinner.selectedItemPosition]
 
         if (cardLive.value!!.card.firstName.isBlank() || cardLive.value!!.card.lastName.isBlank() || cardLive.value!!.elements.size == 0) {
             MaterialAlertDialogBuilder(this)
-                .setTitle("Error")
-                .setMessage("Incomplete business card.\n You must insert a first name, a last name add, at last one element")
-                .setNeutralButton("Ok") { di: DialogInterface, _: Int ->
+                .setTitle(resources.getText(R.string.error))
+                .setMessage(resources.getText(R.string.error_info))
+                .setNeutralButton(resources.getText(R.string.ok)) { di: DialogInterface, _: Int ->
                     di.dismiss()
                 }.show()
         } else {
@@ -148,8 +148,8 @@ class ReceivedActivity : AppCompatActivity() {
 
     private fun permissionGranted() {
         if (BluetoothAdapter.getDefaultAdapter() == null) {
-            Toast.makeText(this, "this device doesn't support bluetooth", Toast.LENGTH_SHORT).show()
-            return
+            Toast.makeText(this, getString(R.string.no_bluetooth), Toast.LENGTH_SHORT).show()
+            finish()
         }
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
 
@@ -157,23 +157,24 @@ class ReceivedActivity : AppCompatActivity() {
             bluetoothEnable()
         }
 
+
     }
 
     private fun bluetoothEnable() {
         MaterialAlertDialogBuilder(this)
-            .setTitle("Bluetooth required")
-            .setMessage("Bluetooth permission required") // Specifying a listener allows you to take an action before dismissing the dialog.
+            .setTitle(getString(R.string.bluetooth_required))
+            .setMessage(getString(R.string.bluetooth_permission)) // Specifying a listener allows you to take an action before dismissing the dialog.
             // The dialog is automatically dismissed when a dialog button is clicked.
             .setPositiveButton(
                 android.R.string.ok
-            ) { _, _ ->
+            ) { id, _ ->
+                id.dismiss()
                 val enableBluetoothIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
                 resultLauncher.launch(enableBluetoothIntent)
             } // A null listener allows the button to dismiss the dialog and take no further action.
             .setNegativeButton(android.R.string.cancel) { _, _ ->
                 finish()
-            }
-            .show()
+            }.show()
     }
 
     private fun startBluetoothServer() {
@@ -194,7 +195,7 @@ class ReceivedActivity : AppCompatActivity() {
 
         override fun onConnectionAccepted(btChannel: CommChannel?) {
             runOnUiThread {
-                binding.status.text = "connected"
+                binding.status.text = getString(R.string.connected)
             }
             btChannel?.registerListener(object : CommChannel.Listener {
                 override fun onMessageReceived(receivedMessage: String?) {

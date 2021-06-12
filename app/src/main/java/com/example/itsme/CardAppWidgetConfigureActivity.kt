@@ -9,7 +9,6 @@ import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import com.example.itsme.databinding.CardAppWidgetConfigureBinding
-import com.example.itsme.databinding.FragmentMainBinding
 import com.example.itsme.db.BusinessCardWithElements
 import com.example.itsme.ui.HomeFragment
 import com.example.itsme.viewModel.ListViewModel
@@ -19,7 +18,6 @@ import com.example.itsme.viewModel.ListViewModel
  */
 class CardAppWidgetConfigureActivity : AppCompatActivity() {
     private var appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID
-    private lateinit var fragment: FragmentMainBinding
     private lateinit var binding: CardAppWidgetConfigureBinding
 
     public override fun onCreate(icicle: Bundle?) {

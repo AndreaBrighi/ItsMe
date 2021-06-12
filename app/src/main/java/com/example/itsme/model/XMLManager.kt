@@ -97,10 +97,10 @@ fun XmlSerializer.writeAttribute(name: String, value: String): XmlSerializer =
             XmlPullParser.START_DOCUMENT ->{}
                 //Log.v("Tes", "Start document")
             XmlPullParser.START_TAG -> {
-                if(name != "Card" && name!= "element")
+                if(name != "card" && name!= "element")
                     el = name
                 //Log.v("Tes", "${space}Start tag $name")
-                if (!map.keys.contains(name) && name != "Card" && name!= "element"){
+                if (!map.keys.contains(name) && name != "card" && name!= "element"){
                     map[name] = ArrayList()
                 }
 //                space += "\t"

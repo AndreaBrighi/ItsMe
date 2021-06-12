@@ -18,11 +18,11 @@ data class BusinessCardWithElements(
     fun getXMLString(): String {
         val xmlSerializer = Xml.newSerializer()
         return xmlSerializer.writeDocument {
-            writeElement("Card") {
+            writeElement("card") {
                 writeElement("firstName", card.firstName)
                 writeElement("lastName", card.lastName)
                 for (elementType in elements.groupBy { it.elementType }) {
-                    writeElement(elementType.key.name) {
+                    writeElement(elementType.key.name.lowercase()) {
                         for (string in elementType.value) {
                             writeElement("element", string.value)
                         }

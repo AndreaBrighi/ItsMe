@@ -77,15 +77,15 @@ class MainFragment(private val config: Boolean = false) : Fragment() {
             ListViewModel::class.java
         )
 
-        when (binding.spinnerFilter.selectedItem.toString()) {
-            "All" -> {
+        when (binding.spinnerFilter.selectedItemPosition) {
+            0 -> {
                 predicateFilter = Predicate<BusinessCardWithElements> { true }
             }
-            "Work" -> {
+            2 -> {
                 predicateFilter =
                     Predicate<BusinessCardWithElements> { it.card.types == CardTypes.WORK }
             }
-            "Social" -> {
+            1 -> {
                 predicateFilter =
                     Predicate<BusinessCardWithElements> { it.card.types == CardTypes.SOCIAL }
             }
@@ -124,15 +124,15 @@ class MainFragment(private val config: Boolean = false) : Fragment() {
                 position: Int,
                 id: Long
             ) {
-                when (binding.spinnerFilter.selectedItem.toString()) {
-                    "All" -> {
+                when (position) {
+                    0 -> {
                         predicateFilter = Predicate<BusinessCardWithElements> { true }
                     }
-                    "Work" -> {
+                    2 -> {
                         predicateFilter =
                             Predicate<BusinessCardWithElements> { it.card.types == CardTypes.WORK }
                     }
-                    "Social" -> {
+                    1 -> {
                         predicateFilter =
                             Predicate<BusinessCardWithElements> { it.card.types == CardTypes.SOCIAL }
                     }

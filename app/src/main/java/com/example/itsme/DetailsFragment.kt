@@ -127,7 +127,7 @@ class DetailsFragment(private val config: Boolean = false) : Fragment() {
                     putExtra(Intent.EXTRA_STREAM, uriText)
                     type = "application/xhtml+xml"
                 }
-                requireActivity().startActivity(Intent.createChooser(shareIntent, "Send"))
+                requireActivity().startActivity(Intent.createChooser(shareIntent, getString(R.string.send)))
             }
         }
         update()
@@ -138,9 +138,9 @@ class DetailsFragment(private val config: Boolean = false) : Fragment() {
                 override fun handleOnBackPressed() {
                     if (isEditing) {
                         MaterialAlertDialogBuilder(requireActivity())
-                            .setTitle("Unsaved change")
-                            .setMessage("Do you want to forget the changes?")
-                            .setPositiveButton("Forget") { _: DialogInterface, _: Int ->
+                            .setTitle(getString(R.string.unsave_changes))
+                            .setMessage(getString(R.string.changes_info))
+                            .setPositiveButton(getString(R.string.forget)) { _: DialogInterface, _: Int ->
                                 listViewModel.getCardItemFromId(cardLive.value!!.card.uidC)
                                     ?.observe(viewLifecycleOwner) {
                                         cardLive.value = it
@@ -149,7 +149,7 @@ class DetailsFragment(private val config: Boolean = false) : Fragment() {
                                         adapter.state = States.ACTION
                                     }
                             }
-                            .setNegativeButton("Save") { di: DialogInterface, _: Int ->
+                            .setNegativeButton(getString(R.string.save)) { di: DialogInterface, _: Int ->
                                 di.dismiss()
                                 save(cardLive)
                                 isEditing = !isEditing
@@ -168,12 +168,12 @@ class DetailsFragment(private val config: Boolean = false) : Fragment() {
         binding.deleteButton.visibility = View.VISIBLE
         binding.deleteButton.setOnClickListener {
             MaterialAlertDialogBuilder(requireActivity())
-                .setTitle("Delete")
-                .setMessage("Do you want to delete this card?")
-                .setNegativeButton("No") { di: DialogInterface, _: Int ->
+                .setTitle(getString(R.string.delete))
+                .setMessage(getString(R.string.delete_card))
+                .setNegativeButton(getString(R.string.no)) { di: DialogInterface, _: Int ->
                     di.dismiss()
                 }
-                .setPositiveButton("Delete") { _: DialogInterface, _: Int ->
+                .setPositiveButton(getString(R.string.delete)) { _: DialogInterface, _: Int ->
                     listViewModel.deleteCard(cardLive.value!!)
                 }
                 .show()
@@ -209,12 +209,12 @@ class DetailsFragment(private val config: Boolean = false) : Fragment() {
         cardLive.value!!.card.firstName = fistNameEditText.text.toString()
         cardLive.value!!.card.lastName = lastNameEditText.text.toString()
         cardLive.value!!.card.types =
-            CardTypes.valueOf(spinner.selectedItem.toString().uppercase())
+            CardTypes.values()[spinner.selectedItemPosition]
         if (cardLive.value!!.card.firstName.isBlank() || cardLive.value!!.card.lastName.isBlank() || cardLive.value!!.elements.size == 0) {
             MaterialAlertDialogBuilder(requireActivity())
-                .setTitle("Error")
-                .setMessage("Incomplete business card.\n You must insert a first name, a last name add, at last one element")
-                .setNeutralButton("Ok") { di: DialogInterface, _: Int ->
+                .setTitle(getString(R.string.error))
+                .setMessage(getString(R.string.error_info))
+                .setNeutralButton(getString(R.string.ok)) { di: DialogInterface, _: Int ->
                     di.dismiss()
                 }.show()
         } else {

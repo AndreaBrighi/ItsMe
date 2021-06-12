@@ -27,11 +27,15 @@ class CardViewHolder(
 ) : RecyclerView.ViewHolder(itemBinding.root) {
 
     fun bind(card: BusinessCardWithElements) {
-        itemBinding.nameView.text = activity.resources.getString(
+
+        val res = activity.resources
+
+
+        itemBinding.nameView.text = res.getString(
             R.string.name_par,
             card.card.firstName + " " + card.card.lastName
         )
-        itemBinding.typeView.text = activity.resources.getString(
+        itemBinding.typeView.text = res.getString(
             R.string.type_par,
             activity.resources.getString(card.card.types.stringResource)
         )
@@ -40,10 +44,11 @@ class CardViewHolder(
             itemBinding.shareButton.visibility = View.INVISIBLE
         }
 
+        val listViewModel = ViewModelProvider((activity as ViewModelStoreOwner?)!!).get(
+            ListViewModel::class.java
+        )
+
         val listener = View.OnClickListener {
-            val listViewModel = ViewModelProvider((activity as ViewModelStoreOwner?)!!).get(
-                ListViewModel::class.java
-            )
             listViewModel.select(card)
             activity.supportFragmentManager.commit {
                 setReorderingAllowed(true)
@@ -54,15 +59,13 @@ class CardViewHolder(
 
         itemBinding.deleteButton.setOnClickListener {
             MaterialAlertDialogBuilder(activity)
-                .setTitle("Delete")
-                .setMessage("Do you want to delete this card?")
-                .setNegativeButton("No") { di: DialogInterface, _: Int ->
+                .setTitle(res.getString(R.string.delete))
+                .setMessage(res.getString(R.string.delete_card))
+                .setNegativeButton(res.getString(R.string.no)) { di: DialogInterface, _: Int ->
                     di.dismiss()
                 }
-                .setPositiveButton("Delete") { _: DialogInterface, _: Int ->
-                    ViewModelProvider((activity as ViewModelStoreOwner?)!!).get(
-                        ListViewModel::class.java
-                    ).deleteCard(card)
+                .setPositiveButton(res.getString(R.string.delete)) { _: DialogInterface, _: Int ->
+                    listViewModel.deleteCard(card)
                 }
                 .show()
         }
@@ -72,9 +75,6 @@ class CardViewHolder(
         itemBinding.card.setOnClickListener(listener)
 
         itemBinding.sendButton.setOnClickListener {
-            val listViewModel = ViewModelProvider((activity as ViewModelStoreOwner?)!!).get(
-                ListViewModel::class.java
-            )
             listViewModel.select(card)
             val intent = Intent(activity.baseContext, FindActivity::class.java)
             intent.putExtra("xml", card.getXMLString())

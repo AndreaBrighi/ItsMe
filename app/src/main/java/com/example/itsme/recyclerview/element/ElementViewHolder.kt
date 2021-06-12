@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.itsme.EditDialogFragment
+import com.example.itsme.R
 import com.example.itsme.databinding.ElementViewBinding
 import com.example.itsme.db.BusinessCardElement
 import com.example.itsme.db.BusinessCardWithElements
@@ -36,12 +37,12 @@ class ElementViewHolder(
 
         itemBinding.deleteButton.setOnClickListener{
             MaterialAlertDialogBuilder(activity)
-                .setTitle("Delete ")
-                .setMessage("Do you want to delete "+element.value+ " from "+ res.getString(element.elementType.getTitle()))
-                .setPositiveButton("Delete") { _: DialogInterface, _: Int ->
+                .setTitle(res.getString(R.string.delete))
+                .setMessage(res.getString(R.string.delete_info,element.value,res.getString(element.elementType.getTitle())))
+                .setPositiveButton(res.getString(R.string.delete)) { _: DialogInterface, _: Int ->
                     cardItem.value!!.elements.remove(element).also { cardItem.value=cardItem.value }
                 }
-                .setNegativeButton("Keep") { di: DialogInterface, _: Int ->
+                .setNegativeButton(res.getString(R.string.keep)) { di: DialogInterface, _: Int ->
                     di.dismiss()
                 }.show()
         }
@@ -56,7 +57,7 @@ class ElementViewHolder(
             } catch (e: Exception) {
                 Toast.makeText(
                     activity,
-                    "Unable to execute the action",
+                    res.getString(R.string.error_action),
                     Toast.LENGTH_SHORT
                 ).show()
             }

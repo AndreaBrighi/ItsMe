@@ -48,7 +48,7 @@ class ReadActivity : AppCompatActivity() {
 
 
         if (contentUri == null) {
-            Toast.makeText(this, " file not found", Toast.LENGTH_SHORT)
+            Toast.makeText(this, getString(R.string.file_not_found), Toast.LENGTH_SHORT)
                 .show()
             finish()
         } else {
@@ -105,13 +105,13 @@ class ReadActivity : AppCompatActivity() {
         cardLive.value!!.card.firstName = bindingInclude.firstNameTextView.text.toString()
         cardLive.value!!.card.lastName = bindingInclude.lastNameTextView.text.toString()
         cardLive.value!!.card.types =
-            CardTypes.valueOf(spinner.selectedItem.toString().uppercase())
+            CardTypes.values()[spinner.selectedItemPosition]
 
         if (cardLive.value!!.card.firstName.isBlank() || cardLive.value!!.card.lastName.isBlank() || cardLive.value!!.elements.size == 0) {
             MaterialAlertDialogBuilder(this)
-                .setTitle("Error")
-                .setMessage("Incomplete business card.\n You must insert a first name, a last name add, at last one element")
-                .setNeutralButton("Ok") { di: DialogInterface, _: Int ->
+                .setTitle(getString(R.string.error))
+                .setMessage(getString(R.string.error_info))
+                .setNeutralButton(getString(R.string.ok)) { di: DialogInterface, _: Int ->
                     di.dismiss()
                 }.show()
         } else {
