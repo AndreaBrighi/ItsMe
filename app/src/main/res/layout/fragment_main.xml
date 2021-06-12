@@ -7,6 +7,28 @@
     android:layout_height="match_parent"
     tools:context=".ui.main.MainFragment">
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/searchLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="@string/search"
+        app:endIconMode="clear_text"
+        app:layout_constraintBottom_toBottomOf="@+id/spinner_filter"
+        app:layout_constraintEnd_toStartOf="@+id/textView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/searchTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="flagNoExtractUi" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -20,12 +42,12 @@
 
     <androidx.appcompat.widget.AppCompatSpinner
         android:id="@+id/spinner_filter"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/searchLayout"
+        app:layout_constraintBottom_toBottomOf="@id/searchLayout"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/card_recyclerView"
@@ -39,7 +61,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_filter"
+        app:layout_constraintTop_toBottomOf="@+id/searchLayout"
         tools:listitem="@layout/card_preview" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

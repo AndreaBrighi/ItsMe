@@ -1,6 +1,7 @@
 package com.example.itsme.ui.main
 
 import android.os.Bundle
+import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,6 +32,7 @@ class MainFragment(private val config: Boolean = false) : Fragment() {
     private var position = 1
     private var predicatePage = Predicate<BusinessCardWithElements> { true }
     private var predicateFilter = Predicate<BusinessCardWithElements> { true }
+    private var predicateSearch = Predicate<BusinessCardWithElements> { true }
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -111,12 +113,16 @@ class MainFragment(private val config: Boolean = false) : Fragment() {
             .observe(activity as LifecycleOwner) { cardItems ->
                 if (cardItems != null) {
                     adapter.setData(
-                        cardItems.filter { predicatePage.test(it) && predicateFilter.test(it) }.distinct()
+                        cardItems.filter {
+                            predicatePage.test(it) && predicateFilter.test(it) && predicateSearch.test(
+                                it
+                            )
+                        }.distinct()
                     )
                 }
             }
 
-        binding.spinnerFilter.onItemSelectedListener = object :AdapterView.OnItemSelectedListener {
+        binding.spinnerFilter.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
 
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -144,7 +150,11 @@ class MainFragment(private val config: Boolean = false) : Fragment() {
                     .observe(activity as LifecycleOwner) { cardItems ->
                         if (cardItems != null) {
                             adapter.setData(
-                                cardItems.filter { predicatePage.test(it) && predicateFilter.test(it) }.distinct()
+                                cardItems.filter {
+                                    predicatePage.test(it) && predicateFilter.test(it) && predicateSearch.test(
+                                        it
+                                    )
+                                }.distinct()
                             )
                         }
                     }
@@ -154,6 +164,33 @@ class MainFragment(private val config: Boolean = false) : Fragment() {
 
             }
         }
+
+        binding.searchTextView.addTextChangedListener((object : android.text.TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                predicateSearch = Predicate<BusinessCardWithElements> { (it.card.firstName+ " "+it.card.lastName).contains(s.toString()) }
+                listViewModel!!.getCardItems()
+                    .observe(activity as LifecycleOwner) { cardItems ->
+                        if (cardItems != null) {
+                            adapter.setData(
+                                cardItems.filter {
+                                    predicatePage.test(it) && predicateFilter.test(it) && predicateSearch.test(
+                                        it
+                                    )
+                                }.distinct()
+                            )
+                        }
+                    }
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+
+        }))
 
 //        arguments?.takeIf { it.containsKey(ARG_SECTION_NUMBER) }?.apply {
 //            when( getInt(ARG_SECTION_NUMBER)) {

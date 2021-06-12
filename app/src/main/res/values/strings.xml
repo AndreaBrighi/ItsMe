@@ -59,8 +59,8 @@
     <string name="insert">Insert</string>
     <string name="cancel">Cancel</string>
     <string name="fail_file">Fail to read file</string>
-    <string name="bluetooth_cancel">Bluetooth enabling has been canceled</string>
-    <string name="bluetooth_enable">Bluetooth enabling has been enable</string>
+    <string name="bluetooth_cancel">Bluetooth has not been enable</string>
+    <string name="bluetooth_enable">Bluetooth has been enable</string>
     <string name="bluetooth_disable">Bluetooth enabling has been disable</string>
     <string name="permission_request">Permission request</string>
     <string name="location_info">Location permission needed</string>
@@ -84,4 +84,5 @@
     <string name="unsave_changes">Unsaved changes</string>
     <string name="changes_info">Do you want to forget the changes?</string>
     <string name="forget">Forget</string>
+    <string name="search">search</string>
 </resources>
