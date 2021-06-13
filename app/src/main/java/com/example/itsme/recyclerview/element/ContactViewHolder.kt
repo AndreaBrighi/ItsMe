@@ -20,7 +20,7 @@ class ContactViewHolder(
     private val activity: FragmentActivity
 ) : RecyclerView.ViewHolder(itemBinding.root) {
 
-    private var _state:States = States.ACTION
+    private var _state: States = States.ACTION
     private val res: Resources = activity.resources
 
     var state: States
@@ -31,7 +31,16 @@ class ContactViewHolder(
             _state = value
             itemBinding.newButton.isEnabled = value.editButton()
             (itemBinding.elementRecyclerView.adapter as ElementAdapter).state = value
-
+            if (_state == States.EDIT) {
+                itemBinding.elementRecyclerView.visibility = View.VISIBLE
+                itemBinding.openCloseImage.setImageDrawable(
+                    ResourcesCompat.getDrawable(
+                        res,
+                        R.drawable.ic_baseline_arrow_drop_down_24,
+                        activity.theme
+                    )
+                )
+            }
         }
 
     fun bind(elementType: ElementType, card: MutableLiveData<BusinessCardWithElements>) {
@@ -39,7 +48,8 @@ class ContactViewHolder(
 
         val mapPar = card.value?.elements?.groupBy { it.elementType }
 
-        val list = if (mapPar == null || mapPar[elementType].isNullOrEmpty()) listOf() else mapPar[elementType]!!
+        val list =
+            if (mapPar == null || mapPar[elementType].isNullOrEmpty()) listOf() else mapPar[elementType]!!
 
 
         itemBinding.numberElementTextView.text =
@@ -79,19 +89,38 @@ class ContactViewHolder(
 
         val adapter = ElementAdapter(activity, list)
         adapter.setData(card)
-        adapter.state= _state
+        adapter.state = _state
         itemBinding.elementRecyclerView.adapter = adapter
+        if (_state == States.EDIT) {
+            itemBinding.elementRecyclerView.visibility = View.VISIBLE
+            itemBinding.openCloseImage.setImageDrawable(
+                ResourcesCompat.getDrawable(
+                    res,
+                    R.drawable.ic_baseline_arrow_drop_down_24,
+                    activity.theme
+                )
+            )
+        }
 
     }
 
-    private fun showEditDialog(element: ElementType, card: MutableLiveData<BusinessCardWithElements>, ) {
+    private fun showEditDialog(
+        element: ElementType,
+        card: MutableLiveData<BusinessCardWithElements>,
+    ) {
         val fm: FragmentManager = activity.supportFragmentManager
         val editNameDialogFragment: EditDialogFragment =
             EditDialogFragment.newInstance(res.getString(element.getTitle()), element.getInput())
         editNameDialogFragment.show(fm, "fragment_edit_name")
         fm.setFragmentResultListener("requestKey", activity) { key, bundle ->
             if (key == "requestKey") {
-                card.value!!.elements.add(BusinessCardElement(card.value!!.card.uidC,element as ElementTypes, bundle.getString("value")!!))
+                card.value!!.elements.add(
+                    BusinessCardElement(
+                        card.value!!.card.uidC,
+                        element as ElementTypes,
+                        bundle.getString("value")!!
+                    )
+                )
                 // Get result from bundle
                 card.value = card.value
             }

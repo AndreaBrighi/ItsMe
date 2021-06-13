@@ -48,7 +48,7 @@ class ListViewModel(application: Application) : AndroidViewModel(application) {
             val ids = item.elements.map { it.uid }
             for (el in card!!.elements) {
                 if (el.uid in ids) {
-                    repository.updateElement(el)
+                    repository.updateElement(item.elements.filter {el.uid==it.uid}[0])
                 } else {
                     repository.removeElement(el)
                 }
