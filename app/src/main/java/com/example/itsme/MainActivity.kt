@@ -23,16 +23,18 @@ class MainActivity : AppCompatActivity() {
             val listViewModel = ViewModelProvider((this as ViewModelStoreOwner?)!!).get(
                 ListViewModel::class.java
             )
-            listViewModel.getCardItemFromId(intent.getLongExtra("id", 0))?.observe(this,
+            val t = intent.getLongExtra("uidC", 0)
+            listViewModel.getCardItemFromId(intent.getLongExtra("uidC", 0))?.observe(this,
                 { card: BusinessCardWithElements? ->
                     if (card != null) {
                         listViewModel.select(card)
+                        supportFragmentManager.commit {
+                            setReorderingAllowed(true)
+                            replace(R.id.fragment_container_view, DetailsFragment(), null)
+                            addToBackStack(this.javaClass.name)
+                        }
                     }
                 })
-            supportFragmentManager.commit {
-                setReorderingAllowed(true)
-                replace(R.id.fragment_container_view, DetailsFragment(), null)
-            }
         }
 
     }

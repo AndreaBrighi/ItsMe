@@ -171,7 +171,7 @@ class MainFragment(private val config: Boolean = false) : Fragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                predicateSearch = Predicate<BusinessCardWithElements> { (it.card.firstName+ " "+it.card.lastName).contains(s.toString()) }
+                predicateSearch = Predicate<BusinessCardWithElements> { (it.card.firstName+it.card.lastName).lowercase().contains(s.toString().lowercase().replace(" ", "")) }
                 listViewModel!!.getCardItems()
                     .observe(activity as LifecycleOwner) { cardItems ->
                         if (cardItems != null) {

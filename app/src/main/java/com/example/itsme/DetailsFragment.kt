@@ -75,6 +75,9 @@ class DetailsFragment(private val config: Boolean = false) : Fragment() {
             binding.sendButton.visibility = View.GONE
             binding.shareButton.visibility = View.GONE
         }
+        else{
+            binding.deleteButton.visibility = View.VISIBLE
+        }
 
         binding.fabEdit.setOnClickListener {
             isEditing = !isEditing
@@ -127,7 +130,12 @@ class DetailsFragment(private val config: Boolean = false) : Fragment() {
                     putExtra(Intent.EXTRA_STREAM, uriText)
                     type = "application/xhtml+xml"
                 }
-                requireActivity().startActivity(Intent.createChooser(shareIntent, getString(R.string.send)))
+                requireActivity().startActivity(
+                    Intent.createChooser(
+                        shareIntent,
+                        getString(R.string.send)
+                    )
+                )
             }
         }
         update()
@@ -165,7 +173,7 @@ class DetailsFragment(private val config: Boolean = false) : Fragment() {
                 }
             })
 
-        binding.deleteButton.visibility = View.VISIBLE
+
         binding.deleteButton.setOnClickListener {
             MaterialAlertDialogBuilder(requireActivity())
                 .setTitle(getString(R.string.delete))
@@ -190,18 +198,20 @@ class DetailsFragment(private val config: Boolean = false) : Fragment() {
         lastNameEditText.isEnabled = isEditing
         binding.firstNameLayout.isEndIconVisible = isEditing
         binding.lastNameLayout.isEndIconVisible = isEditing
-        val visibility: Int = if (isEditing) {
-            binding.fabEdit.hide()
-            binding.fabSave.show()
-            View.INVISIBLE
-        } else {
-            binding.fabEdit.show()
-            binding.fabSave.hide()
-            View.VISIBLE
-        }
+        if (!config) {
+            val visibility: Int = if (isEditing) {
+                binding.fabEdit.hide()
+                binding.fabSave.show()
+                View.INVISIBLE
+            } else {
+                binding.fabEdit.show()
+                binding.fabSave.hide()
+                View.VISIBLE
+            }
 
-        binding.shareButton.visibility = visibility
-        binding.sendButton.visibility = visibility
+            binding.shareButton.visibility = visibility
+            binding.sendButton.visibility = visibility
+        }
 
     }
 

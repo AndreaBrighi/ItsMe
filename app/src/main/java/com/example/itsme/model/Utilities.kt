@@ -66,7 +66,7 @@ object Utilities {
                     )       //file name
                     values.put(
                         MediaStore.MediaColumns.MIME_TYPE,
-                        "application/xhtml+xml"
+                        "application/xml"
                     )        //file extension, will automatically add to file
                     values.put(
                         MediaStore.MediaColumns.RELATIVE_PATH,

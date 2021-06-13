@@ -58,16 +58,17 @@ internal fun updateAppWidget(
     val res = context.resources
 
     val repository = BusinessCardRepository(context)
-    val cardItem = loadIdPref(context, appWidgetId)?.let { repository.getCardItemFromId(it) }
+    val cardItem = loadIdPref(context, appWidgetId).let { repository.getCardItemFromId(it) }
 
     cardItem?.observe(ProcessLifecycleOwner.get(), { card: BusinessCardWithElements? ->
 
         card?.let {
             val pendingIntent: PendingIntent = Intent(context, MainActivity::class.java)
                 .let { intent ->
-                    PendingIntent.getActivity(context, 0, intent.apply {
-                        putExtra("id", card.card.uidC)
-                    }, 0)
+                    intent.putExtra("uidC", it.card.uidC)
+                    PendingIntent.getActivity(
+                        context, 0, intent, 0
+                    )
                 }
 
             // Get the layout for the App Widget and attach an on-click listener
@@ -88,26 +89,50 @@ internal fun updateAppWidget(
 
             val base = card.elements.groupBy { it.elementType }
 
-            for (element in ElementTypes.values()){
-                when (element){
-                    ElementTypes.PHONE->{
-                        views.setViewVisibility(R.id.phoneIcon, if(base.containsKey(element)) View.VISIBLE else View.INVISIBLE)
+            for (element in ElementTypes.values()) {
+                when (element) {
+                    ElementTypes.PHONE -> {
+                        views.setViewVisibility(
+                            R.id.phoneIcon,
+                            if (base.containsKey(element)) View.VISIBLE else View.INVISIBLE
+                        )
                     }
-                    ElementTypes.MAIL->{
-                        views.setViewVisibility(R.id.emailIcon, if(base.containsKey(element)) View.VISIBLE else View.INVISIBLE)
+                    ElementTypes.MAIL -> {
+                        views.setViewVisibility(
+                            R.id.emailIcon,
+                            if (base.containsKey(element)) View.VISIBLE else View.INVISIBLE
+                        )
                     }
-                    ElementTypes.WEB_PAGE->{
-                        views.setViewVisibility(R.id.webIcon, if(base.containsKey(element)) View.VISIBLE else View.INVISIBLE)
+                    ElementTypes.WEB_PAGE -> {
+                        views.setViewVisibility(
+                            R.id.webIcon,
+                            if (base.containsKey(element)) View.VISIBLE else View.INVISIBLE
+                        )
                     }
-                    ElementTypes.FACEBOOK->{
-                        views.setViewVisibility(R.id.facebookIcon, if(base.containsKey(element)) View.VISIBLE else View.INVISIBLE)
+                    ElementTypes.FACEBOOK -> {
+                        views.setViewVisibility(
+                            R.id.facebookIcon,
+                            if (base.containsKey(element)) View.VISIBLE else View.INVISIBLE
+                        )
                     }
-                    ElementTypes.INSTAGRAM->{
-                        views.setViewVisibility(R.id.instagramIcon, if(base.containsKey(element)) View.VISIBLE else View.INVISIBLE)
+                    ElementTypes.INSTAGRAM -> {
+                        views.setViewVisibility(
+                            R.id.instagramIcon,
+                            if (base.containsKey(element)) View.VISIBLE else View.INVISIBLE
+                        )
                     }
                 }
             }
             appWidgetManager.updateAppWidget(appWidgetId, views)
+        } ?: run {
+            views.setTextViewText(
+                R.id.appwidget_name,
+                res.getString(R.string.error)
+            )
+            views.setTextViewText(
+                R.id.appwidget_type,
+                res.getString(R.string.card_not_found)
+            )
         }
     })
 

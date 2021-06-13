@@ -94,7 +94,7 @@ internal fun saveIdPref(context: Context, appWidgetId: Int, int: Long) {
 
 // Read the prefix from the SharedPreferences object for this widget.
 // If there is no preference saved, get the default from a resource
-internal fun loadIdPref(context: Context, appWidgetId: Int): Long? {
+internal fun loadIdPref(context: Context, appWidgetId: Int): Long {
     val prefs = context.getSharedPreferences(PREFS_NAME, 0)
     return prefs.getLong(PREF_PREFIX_KEY + appWidgetId, 0)
 }

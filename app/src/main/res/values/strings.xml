@@ -85,4 +85,5 @@
     <string name="changes_info">Do you want to forget the changes?</string>
     <string name="forget">Forget</string>
     <string name="search">search</string>
+    <string name="card_not_found">card not found</string>
 </resources>

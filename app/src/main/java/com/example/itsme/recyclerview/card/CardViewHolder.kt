@@ -42,6 +42,7 @@ class CardViewHolder(
         if (config) {
             itemBinding.sendButton.visibility = View.INVISIBLE
             itemBinding.shareButton.visibility = View.INVISIBLE
+            itemBinding.deleteButton.visibility = View.GONE
         }
 
         val listViewModel = ViewModelProvider((activity as ViewModelStoreOwner?)!!).get(
