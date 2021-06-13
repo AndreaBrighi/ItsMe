@@ -39,7 +39,7 @@ enum class ElementTypes : ElementType {
 
         override fun getIntent(value: String): Intent {
             val intent = Intent(Intent.ACTION_SENDTO)
-            intent.data = Uri.parse("mailto:") // only email apps should handle this
+            intent.data = Uri.parse("mailto:$value") // only email apps should handle this
 
             intent.putExtra(Intent.EXTRA_EMAIL, value)
             return intent

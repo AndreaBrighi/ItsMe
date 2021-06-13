@@ -165,7 +165,7 @@ class DetailsFragment(private val config: Boolean = false) : Fragment() {
                                 adapter.state = States.ACTION
                             }.show()
                     } else {
-                        activity!!.supportFragmentManager.popBackStack(
+                        requireActivity().supportFragmentManager.popBackStack(
                             null,
                             FragmentManager.POP_BACK_STACK_INCLUSIVE
                         )
@@ -183,6 +183,10 @@ class DetailsFragment(private val config: Boolean = false) : Fragment() {
                 }
                 .setPositiveButton(getString(R.string.delete)) { _: DialogInterface, _: Int ->
                     listViewModel.deleteCard(cardLive.value!!)
+                    requireActivity().supportFragmentManager.popBackStack(
+                        null,
+                        FragmentManager.POP_BACK_STACK_INCLUSIVE
+                    )
                 }
                 .show()
         }
