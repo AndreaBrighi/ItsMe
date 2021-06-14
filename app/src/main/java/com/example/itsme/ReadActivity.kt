@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatSpinner
 import androidx.lifecycle.MutableLiveData
@@ -99,7 +100,15 @@ class ReadActivity : AppCompatActivity() {
 
         }
 
+        onBackPressedDispatcher.addCallback(
+            this,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    startActivity(Intent(baseContext, MainActivity::class.java))
+                }
+            })
     }
+
 
     private fun save(cardLive: MutableLiveData<BusinessCardWithElements>) {
         cardLive.value!!.card.firstName = bindingInclude.firstNameTextView.text.toString()
@@ -116,8 +125,7 @@ class ReadActivity : AppCompatActivity() {
                 }.show()
         } else {
             listViewModel.addCard(cardLive.value!!)
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, MainActivity::class.java))
         }
     }
 }

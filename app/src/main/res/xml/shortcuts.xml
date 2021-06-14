@@ -9,7 +9,10 @@
         <intent
             android:action="android.intent.action.VIEW"
             android:targetPackage="com.example.itsme"
-            android:targetClass="com.example.itsme.AddActivity" />
+            android:targetClass="com.example.itsme.MainActivity" >
+            <extra android:name="destination" android:value="add"/>
+
+        </intent>
         <categories android:name="android.shortcut.conversation" />
     </shortcut>
 
@@ -22,7 +25,9 @@
         <intent
             android:action="android.intent.action.VIEW"
             android:targetPackage="com.example.itsme"
-            android:targetClass="com.example.itsme.ReceivedActivity" />
+            android:targetClass="com.example.itsme.MainActivity" >
+            <extra android:name="destination" android:value="received"/>
+        </intent>
         <categories android:name="android.shortcut.conversation" />
     </shortcut>
 </shortcuts>

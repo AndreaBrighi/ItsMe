@@ -80,6 +80,7 @@ class FindActivity : AppCompatActivity() {
                         resources.getText(R.string.bluetooth_cancel),
                         Toast.LENGTH_SHORT
                     ).show()
+                    finish()
                 }
             }
 
