@@ -1,7 +1,7 @@
-**ItsMe**
+# ItsMe
 
 ItsMe is an android application (design for smartphone) with the goal to exchange of business card through bluetooth or XML files.
-The XML files can be sent through whatsapp, telegram, email, etc ...
+The XML files can be sent through whatsapp, telegram, email, etc...
 
 ---
 
